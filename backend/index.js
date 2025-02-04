@@ -43,16 +43,6 @@ async function cleanChampionData(championData) {
     return { id, lore, key, blurb, title, skins: enrichedSkins };
 }
 
-async function writeDataToFile(data) {
-    try {
-        const jsonData = JSON.stringify(data, null, 2);
-        await fs.writeFile('champion_skins.json', jsonData, 'utf-8');
-        console.log('Data written to champion_skins.json');
-    } catch (error) {
-        console.error('Error writing data to file', error);
-    }
-}
-
 async function main() {
     try {
         const championNames = await fetchChampionList();
@@ -64,8 +54,6 @@ async function main() {
         await popuplateDatabase(cleanedChampionDetails);
 
         await pool.end();
-
-        //await writeDataToFile(cleanedChampionDetails);
     } catch (error) {
         console.error('Error fetching data', error);
     }
