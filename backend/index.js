@@ -1,4 +1,6 @@
 const fs = require('fs').promises;
+const pool = require('./db');
+const popuplateDatabase = require('./dbQueries');
 
 const API_VERSION = '15.3.1';
 const BASE_URL = `https://ddragon.leagueoflegends.com/cdn/${API_VERSION}`;
@@ -59,7 +61,11 @@ async function main() {
         const championDetails = await fetchChampionDetails(championNames);
         const cleanedChampionDetails = await Promise.all(championDetails.map(cleanChampionData));
 
-        await writeDataToFile(cleanedChampionDetails);
+        await popuplateDatabase(cleanedChampionDetails);
+
+        await pool.end();
+
+        //await writeDataToFile(cleanedChampionDetails);
     } catch (error) {
         console.error('Error fetching data', error);
     }
