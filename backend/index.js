@@ -35,7 +35,22 @@ async function main() {
 
         const championDetails = await fetchChampionDetails(championNames);
 
-        await writeDataToFile(championDetails);
+        let organizedChampionDetails = {};
+        championDetails.forEach(champ => {
+            const champName = champ.id;
+
+            const skinsWithImages = champ.skins.map(skin => {
+                const splashUrl = `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champName}_${skin.num}.jpg`;
+                return { ...skin, splashUrl };
+            });
+            
+            organizedChampionDetails[champName] = {
+                ...champ,
+                skins: skinsWithImages
+            };
+        });
+
+        await writeDataToFile(organizedChampionDetails);
     } catch (error) {
         console.error('Error fetching data', error);
     }
