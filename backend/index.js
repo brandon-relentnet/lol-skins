@@ -28,6 +28,24 @@ async function writeDataToFile(data) {
     }
 }
 
+async function cleanChampionData(championData) {
+    const { id, lore, key, blurb, title, skins } = championData;
+
+    const enrichedSkins = skins.map(skin => {
+        const splashUrl = `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${id}_${skin.num}.jpg`;
+        return { ...skin, splashUrl };
+    });
+
+    return {
+        id,
+        lore,
+        key,
+        blurb,
+        title,
+        skins: enrichedSkins
+    };
+}
+
 async function main() {
     try {
         const championNames = await fetchChampionList();
@@ -35,22 +53,9 @@ async function main() {
 
         const championDetails = await fetchChampionDetails(championNames);
 
-        let organizedChampionDetails = {};
-        championDetails.forEach(champ => {
-            const champName = champ.id;
+        const cleanedChampionDetails = await Promise.all(championDetails.map(cleanChampionData));
 
-            const skinsWithImages = champ.skins.map(skin => {
-                const splashUrl = `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champName}_${skin.num}.jpg`;
-                return { ...skin, splashUrl };
-            });
-            
-            organizedChampionDetails[champName] = {
-                ...champ,
-                skins: skinsWithImages
-            };
-        });
-
-        await writeDataToFile(organizedChampionDetails);
+        await writeDataToFile(cleanedChampionDetails);
     } catch (error) {
         console.error('Error fetching data', error);
     }
