@@ -9,5 +9,9 @@
   "author": "",
   "license": "ISC",
   "type": "commonjs",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "pg": "^8.13.1",
+    "dotenv": "^16.4.7"
+  }
 }
