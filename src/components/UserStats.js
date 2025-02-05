@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 
 export default function UserStats() {
-    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [stats, setStats] = useState({ usedStars: 0, usedX: 0 });
     const [showTooltip, setShowTooltip] = useState(false);
@@ -25,7 +24,6 @@ export default function UserStats() {
 
     async function fetchStats() {
         try {
-            setLoading(true);
             setError(null);
 
             const res = await fetch("/api/user/stats", { credentials: "include" });
@@ -41,8 +39,6 @@ export default function UserStats() {
         } catch (err) {
             console.error(err);
             setError(err.message);
-        } finally {
-            setLoading(false);
         }
     }
 
@@ -58,9 +54,7 @@ export default function UserStats() {
                 onMouseLeave={() => setShowTooltip(false)}
                 className="p-2 bg-gray-700 text-white rounded cursor-default"
             >
-                
-                        {stats.usedStars}/3 ⭐ &nbsp;|&nbsp; {stats.usedX}/3 ❌
-                    
+                {stats.usedStars}/3 ⭐ &nbsp;|&nbsp; {stats.usedX}/3 ❌
             </div>
 
             {/* Simple tooltip */}
