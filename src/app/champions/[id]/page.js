@@ -3,10 +3,7 @@ import { notFound } from 'next/navigation';
 import SkinCard from '@/components/SkinCard';
 
 export default async function ChampionPage({ params }) {
-    // Await params (as per Next.js App Router requirement)
     const { id } = await params;
-
-    // Fetch champion details using the id.
     const res = await fetch(`http://localhost:3000/api/champions/${id}`, { cache: 'no-store' });
     if (!res.ok) {
         return notFound();
@@ -27,7 +24,10 @@ export default async function ChampionPage({ params }) {
                         key={skin.id}
                         skin={skin}
                         championId={champion.id}
-                        userId="testUser" // Replace with actual user ID in a real app
+                        userId="testUser"
+                        initialVote={skin.user_vote ?? 0}
+                        initialStar={skin.user_star ?? false}
+                        initialX={skin.user_x ?? false}
                     />
                 ))}
             </div>

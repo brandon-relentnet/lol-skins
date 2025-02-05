@@ -3,23 +3,23 @@
 
 import { useState } from 'react';
 
-export default function SkinCard({ skin, championId, userId }) {
-    // Initialize aggregates from skin data.
+export default function SkinCard({ skin, championId, userId, initialVote, initialStar, initialX }) {
+    // Initialize aggregate totals (from the skin record)
     const [totals, setTotals] = useState({
         total_votes: skin.total_votes || 0,
         total_stars: skin.total_stars || 0,
         total_x: skin.total_x || 0,
     });
 
-    // Local state for the user's current selections on this skin.
-    const [userVote, setUserVote] = useState(0); // 1 for upvote, -1 for downvote, 0 for no vote.
-    const [userStar, setUserStar] = useState(false);
-    const [userX, setUserX] = useState(false);
+    // Initialize the user’s vote state based on the initial data.
+    const [userVote, setUserVote] = useState(initialVote);
+    const [userStar, setUserStar] = useState(initialStar);
+    const [userX, setUserX] = useState(initialX);
     const [loading, setLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState(null);
     const [successMsg, setSuccessMsg] = useState(null);
 
-    // Sends the current vote state to the votes API.
+    // Send the current vote state to the API.
     const sendVote = async (vote, star, x) => {
         setLoading(true);
         setErrorMsg(null);
@@ -45,7 +45,7 @@ export default function SkinCard({ skin, championId, userId }) {
         }
     };
 
-    // Button handlers that toggle and send the vote.
+    // Button handlers toggle and send the updated vote state.
     const handleUpvote = () => {
         const newVote = userVote === 1 ? 0 : 1;
         setUserVote(newVote);
@@ -84,28 +84,28 @@ export default function SkinCard({ skin, championId, userId }) {
                     disabled={loading}
                     className="bg-green-500 text-white px-2 py-1 rounded"
                 >
-                    {userVote === 1 ? 'Remove Upvote' : 'Upvote'}
+                    {userVote === 1 ? 'Upvoted' : 'Upvote'}
                 </button>
                 <button
                     onClick={handleDownvote}
                     disabled={loading}
                     className="bg-red-500 text-white px-2 py-1 rounded"
                 >
-                    {userVote === -1 ? 'Remove Downvote' : 'Downvote'}
+                    {userVote === -1 ? 'Downvoted' : 'Downvote'}
                 </button>
                 <button
                     onClick={handleStar}
                     disabled={loading}
                     className="bg-yellow-500 text-white px-2 py-1 rounded"
                 >
-                    {userStar ? 'Unstar' : '⭐'}
+                    {userStar ? 'Starred' : '⭐'}
                 </button>
                 <button
                     onClick={handleX}
                     disabled={loading}
                     className="bg-gray-500 text-white px-2 py-1 rounded"
                 >
-                    {userX ? 'Remove X' : '❌'}
+                    {userX ? 'Xed' : '❌'}
                 </button>
             </div>
             <div className="mt-2 text-center">
