@@ -40,6 +40,9 @@ export default function SkinCard({ skin, championId, userId, initialVote, initia
             if (data.totals) {
                 setTotals(data.totals);
             }
+            if ((star !== userStar) || (x !== userX)) {
+                window.dispatchEvent(new CustomEvent("updateUserStats"));
+            }
         } catch (err) {
             setErrorMsg(err.message);
         } finally {
