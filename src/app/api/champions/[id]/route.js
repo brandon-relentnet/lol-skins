@@ -13,7 +13,7 @@ export async function GET(request, { params }) {
         }
         const champion = championResult.rows[0];
 
-        const skinsResult = await pool.query('SELECT * FROM skins WHERE LOWER(champion_id) = LOWER($1)', [id]);
+        const skinsResult = await pool.query('SELECT * FROM skins WHERE LOWER(champion_id) = LOWER($1) ORDER BY num ASC', [id]);
         champion.skins = skinsResult.rows;
 
         return NextResponse.json(champion);

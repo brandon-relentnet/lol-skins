@@ -1,11 +1,12 @@
+// app/champions/[id]/page.jsx
 import { notFound } from 'next/navigation';
+import SkinCard from '@/components/SkinCard';
 
 export default async function ChampionPage({ params }) {
-    // params.id comes from the URL, e.g. "aatrox"
+    // Await params (as per Next.js App Router requirement)
     const { id } = await params;
 
     // Fetch champion details using the id.
-    // (Your API endpoint should do a case-insensitive lookup.)
     const res = await fetch(`http://localhost:3000/api/champions/${id}`, { cache: 'no-store' });
     if (!res.ok) {
         return notFound();
@@ -22,14 +23,12 @@ export default async function ChampionPage({ params }) {
             <h2 className="mt-6 text-2xl font-bold">Skins</h2>
             <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {champion.skins.map((skin) => (
-                    <div key={skin.id} className="border rounded p-2">
-                        <img
-                            src={skin.splash_url}
-                            alt={`${champion.id} ${skin.name}`}
-                            className="w-full h-auto rounded"
-                        />
-                        <p className="mt-2 text-center">{skin.name}</p>
-                    </div>
+                    <SkinCard
+                        key={skin.id}
+                        skin={skin}
+                        championId={champion.id}
+                        userId="testUser" // Replace with actual user ID in a real app
+                    />
                 ))}
             </div>
         </div>
