@@ -20,7 +20,7 @@ export default async function HomePage() {
               <Link href={`/champions/${champion.id.toLowerCase()}`}>
                 <div className="cursor-pointer hover:shadow-lg transition">
                   <img
-                    src={defaultSkin.splashUrl}
+                    src={defaultSkin.splash_url}
                     alt={`${champion.id} default skin`}
                     className="w-full h-auto rounded"
                   />

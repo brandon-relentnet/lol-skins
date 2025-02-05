@@ -10,6 +10,7 @@ export async function GET(request) {
             FROM champions c
             LEFT JOIN skins s ON c.id = s.champion_id
             GROUP BY c.id
+            ORDER BY c.id
         `;
         const result = await pool.query(query);
         return NextResponse.json(result.rows);
