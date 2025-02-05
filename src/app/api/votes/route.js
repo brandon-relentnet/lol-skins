@@ -1,18 +1,34 @@
 // app/api/votes/route.js
 import pool from '@/db.js';
 import { NextResponse } from 'next/server';
+import { randomUUID } from 'crypto';
 
 export async function POST(request) {
     const client = await pool.connect();
+    let userId;
     try {
-        const { skinId, userId, vote, star, x } = await request.json();
+        // Extract the anonymousId cookie from the request.
+        const anonymousCookie = request.cookies.get('anonymousId');
+        if (anonymousCookie && anonymousCookie.value) {
+            userId = anonymousCookie.value;
+        } else {
+            // Generate a new anonymousId.
+            userId = randomUUID();
+        }
+
+        // Read the JSON body.
+        const { skinId, vote, star, x } = await request.json();
 
         // Validate inputs.
         if (![-1, 0, 1].includes(vote)) {
-            return NextResponse.json({ error: 'Invalid vote value' }, { status: 400 });
+            const res = NextResponse.json({ error: 'Invalid vote value' }, { status: 400 });
+            if (!anonymousCookie) res.cookies.set('anonymousId', userId, { httpOnly: true, path: '/', sameSite: 'lax' });
+            return res;
         }
         if (typeof star !== 'boolean' || typeof x !== 'boolean') {
-            return NextResponse.json({ error: 'Invalid star or x value' }, { status: 400 });
+            const res = NextResponse.json({ error: 'Invalid star or x value' }, { status: 400 });
+            if (!anonymousCookie) res.cookies.set('anonymousId', userId, { httpOnly: true, path: '/', sameSite: 'lax' });
+            return res;
         }
 
         await client.query('BEGIN');
@@ -24,7 +40,6 @@ export async function POST(request) {
         );
         const exists = existingVoteRes.rowCount > 0;
 
-        // Insert or update the user's vote.
         if (exists) {
             await client.query(
                 `UPDATE user_skin_votes
@@ -41,7 +56,6 @@ export async function POST(request) {
         }
 
         // Enforce global limits for star and x votes (across all skins for this user).
-        // Count total star votes for this user.
         const starCountRes = await client.query(
             'SELECT COUNT(*) AS star_count FROM user_skin_votes WHERE user_id = $1 AND star = true',
             [userId]
@@ -49,10 +63,11 @@ export async function POST(request) {
         const starCount = parseInt(starCountRes.rows[0].star_count, 10);
         if (starCount > 3) {
             await client.query('ROLLBACK');
-            return NextResponse.json({ error: 'Exceeded maximum star votes (3)' }, { status: 400 });
+            const res = NextResponse.json({ error: 'Exceeded maximum star votes (3)' }, { status: 400 });
+            if (!anonymousCookie) res.cookies.set('anonymousId', userId, { httpOnly: true, path: '/', sameSite: 'lax' });
+            return res;
         }
 
-        // Count total x votes for this user.
         const xCountRes = await client.query(
             'SELECT COUNT(*) AS x_count FROM user_skin_votes WHERE user_id = $1 AND x = true',
             [userId]
@@ -60,7 +75,9 @@ export async function POST(request) {
         const xCount = parseInt(xCountRes.rows[0].x_count, 10);
         if (xCount > 3) {
             await client.query('ROLLBACK');
-            return NextResponse.json({ error: 'Exceeded maximum X votes (3)' }, { status: 400 });
+            const res = NextResponse.json({ error: 'Exceeded maximum X votes (3)' }, { status: 400 });
+            if (!anonymousCookie) res.cookies.set('anonymousId', userId, { httpOnly: true, path: '/', sameSite: 'lax' });
+            return res;
         }
 
         // Recalculate aggregate totals for the skin.
@@ -84,11 +101,20 @@ export async function POST(request) {
         );
 
         await client.query('COMMIT');
-        return NextResponse.json({ message: 'Vote updated successfully', totals });
+        const response = NextResponse.json({ message: 'Vote updated successfully', totals });
+        // If no anonymousId cookie was present, set it now.
+        if (!anonymousCookie) {
+            response.cookies.set('anonymousId', userId, { httpOnly: true, path: '/', sameSite: 'lax' });
+        }
+        return response;
     } catch (error) {
         await client.query('ROLLBACK');
         console.error('Error updating vote:', error);
-        return NextResponse.json({ error: 'Failed to update vote' }, { status: 500 });
+        const response = NextResponse.json({ error: 'Failed to update vote' }, { status: 500 });
+        if (!request.cookies.get('anonymousId')) {
+            response.cookies.set('anonymousId', userId, { httpOnly: true, path: '/', sameSite: 'lax' });
+        }
+        return response;
     } finally {
         client.release();
     }
