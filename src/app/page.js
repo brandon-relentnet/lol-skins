@@ -1,95 +1,37 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import Link from 'next/link';
 
-export default function Home() {
+export default async function HomePage() {
+  // Fetch champion data from your API
+  const res = await fetch('http://localhost:3000/api/champions', { cache: 'no-store' });
+  const champions = await res.json();
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.js</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div className="container mx-auto p-4">
+      <h1 className="text-3xl font-bold mb-4">Champions</h1>
+      <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {champions.map((champion) => {
+          // Find the default skin: typically the one with skin.num === 0.
+          const defaultSkin =
+            champion.skins.find((skin) => skin.num === 0) || champion.skins[0];
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+          return (
+            <li key={champion.id} className="border rounded p-2">
+              {/* Make the whole item clickable */}
+              <Link href={`/champions/${champion.id.toLowerCase()}`}>
+                <div className="cursor-pointer hover:shadow-lg transition">
+                  <img
+                    src={defaultSkin.splash_url}
+                    alt={`${champion.id} default skin`}
+                    className="w-full h-auto rounded"
+                  />
+                  <h2 className="mt-2 font-bold text-xl">{champion.id}</h2>
+                  <p className="text-gray-600">{champion.title}</p>
+                </div>
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }
