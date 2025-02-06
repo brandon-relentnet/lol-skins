@@ -57,13 +57,12 @@ export default function ClientPage({ championId }) {
             <p className="mt-2 text-gray-700">{champion.lore}</p>
 
             <h2 className="mt-6 text-2xl font-bold">Skins</h2>
-            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 {champion.skins.map((skin) => (
                     <SkinCard
                         key={skin.id}
                         skin={skin}
                         championId={champion.id}
-                        userId={"Set-by-cookie-in-the-server"} // Not strictly needed if your /api/votes handles it
                         initialVote={skin.user_vote ?? 0}
                         initialStar={skin.user_star ?? false}
                         initialX={skin.user_x ?? false}

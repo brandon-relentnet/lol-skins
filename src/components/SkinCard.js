@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 
-export default function SkinCard({ skin, championId, userId, initialVote, initialStar, initialX }) {
+export default function SkinCard({ skin, championId, initialVote, initialStar, initialX }) {
     const [totals, setTotals] = useState({
         total_votes: skin.total_votes || 0,
         total_stars: skin.total_stars || 0,
@@ -75,7 +75,7 @@ export default function SkinCard({ skin, championId, userId, initialVote, initia
     };
 
     return (
-        <div className="border rounded p-2">
+        <div className="rounded p-2 bg-slate-900 hover:bg-slate-800 transition duration-150">
             <img
                 src={skin.splash_url}
                 alt={`${championId} ${skin.name}`}

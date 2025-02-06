@@ -20,8 +20,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      
+    <html lang="en" className="bg-gradient-to-br from-gradientTop to-gradientBottom text-slate-50">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
