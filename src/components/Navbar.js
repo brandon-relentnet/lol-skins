@@ -33,7 +33,7 @@ export default function NavBar() {
 
 
             </div>
-            <div className='flex space-x-6 h-26 justify-center items-center'>
+            <div className='flex space-x-6 h-26 justify-center items-center absolute left-1/2 transform -translate-x-1/2'>
                 <Link href="/">
                     <FontAwesomeIcon icon={faHouse} className='h-7 text-icon' />
                 </Link>
