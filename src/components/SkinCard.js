@@ -1,5 +1,8 @@
 "use client";
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowUp, faArrowDown, faStar, faBan } from '@fortawesome/free-solid-svg-icons';
+
 import { useState, useEffect } from 'react';
 
 export default function SkinCard({ skin, championId, initialVote, initialStar, initialX }) {
@@ -75,34 +78,55 @@ export default function SkinCard({ skin, championId, initialVote, initialStar, i
     };
 
     return (
-        <div className="rounded p-2 bg-slate-900 hover:bg-slate-800 transition duration-150">
+        <div className="bg-hextech-black/30 rounded-t border-2 border-transparent outline-icon/30 outline -outline-offset-2 hover:border-icon hover:border-2 transition duration-150">
             <img
                 src={skin.splash_url}
                 alt={`${championId} ${skin.name}`}
-                className="w-full h-auto rounded"
+                className="w-full h-auto rounded-t"
             />
-            <p className="mt-2 text-center font-bold">{skin.name}</p>
-            <div className="flex justify-around mt-2">
-                <button onClick={handleUpvote} disabled={loading} className={`px-2 py-1 rounded ${userVote === 1 ? 'bg-green-700' : 'bg-green-500'}`}>
-                    {userVote === 1 ? 'Upvoted' : 'Upvote'}
-                </button>
-                <button onClick={handleDownvote} disabled={loading} className={`px-2 py-1 rounded ${userVote === -1 ? 'bg-red-700' : 'bg-red-500'}`}>
-                    {userVote === -1 ? 'Downvoted' : 'Downvote'}
-                </button>
-                <button onClick={handleStar} disabled={loading} className={`px-2 py-1 rounded ${userStar ? 'bg-yellow-700' : 'bg-yellow-500'}`}>
-                    {userStar ? 'Starred' : '⭐'}
-                </button>
-                <button onClick={handleX} disabled={loading} className={`px-2 py-1 rounded ${userX ? 'bg-gray-700' : 'bg-gray-500'}`}>
-                    {userX ? 'Xed' : '❌'}
-                </button>
-            </div>
-            <div className="mt-2 text-center">
-                <p>Total Votes: {totals.total_votes}</p>
-                <p>Total Stars: {totals.total_stars}</p>
-                <p>Total X's: {totals.total_x}</p>
+            <p className="text-xl text-grey1 text-center pt-4">{skin.name}</p>
+            <div className="flex justify-evenly items-center p-4">
+                <div className="flex justify-center items-center space-x-2">
+                    <div className='mr-2 text-gold1 font-bold text-2xl mb-1'>
+                        {totals.total_votes}
+                    </div>
+                    <button onClick={handleUpvote} disabled={loading} className={`cursor-pointer p-1`}>
+                        <FontAwesomeIcon
+                            icon={faArrowUp}
+                            className={`${userVote === 1 ? 'text-gold3' : 'text-grey2'} hover:text-gold3 hover:scale-105 transition duration-150`}
+                        />
+                    </button>
+                    <button onClick={handleDownvote} disabled={loading} className={`cursor-pointer p-1`}>
+                        <FontAwesomeIcon
+                            icon={faArrowDown}
+                            className={`${userVote === -1 ? 'text-gold3' : 'text-grey2'} hover:text-gold3 hover:scale-105 transition duration-150`}
+                        />
+                    </button>
+                </div>
+                <div className="flex justify-center items-center space-x-2">
+                    <div className='mr-2 text-gold1 font-bold text-2xl mb-1'>
+                        {totals.total_stars}
+                    </div>
+                    <button onClick={handleStar} disabled={loading} className={`cursor-pointer p-1`}>
+                        <FontAwesomeIcon
+                            icon={faStar}
+                            className={`${userStar ? 'text-gold3' : 'text-grey2'} hover:text-gold3 hover:scale-105 transition duration-150`}
+                        />
+                    </button>
+                </div>
+                <div className="flex justify-center items-center space-x-2">
+                    <div className='mr-2 text-gold1 font-bold text-2xl mb-1'>
+                        {totals.total_x}
+                    </div>
+                    <button onClick={handleX} disabled={loading} className={`cursor-pointer p-1`}>
+                        <FontAwesomeIcon
+                            icon={faBan}
+                            className={`${userX ? 'text-gold3' : 'text-grey2'} hover:text-gold3 hover:scale-105 transition duration-150`}
+                        />
+                    </button>
+                </div>
             </div>
             {errorMsg && <p className="text-red-500 text-center mt-2">{errorMsg}</p>}
-            {successMsg && <p className="text-green-500 text-center mt-2">{successMsg}</p>}
         </div>
     );
 }

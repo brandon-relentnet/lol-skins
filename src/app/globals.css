@@ -36,3 +36,7 @@
   --color-grey-cool: #1E282D;
   --color-hextech-black: #010A13;
 }
+
+.svg-inline--fa {
+  height: 1.5em;
+}

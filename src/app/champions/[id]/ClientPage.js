@@ -51,13 +51,15 @@ export default function ClientPage({ championId }) {
 
     return (
         <>
-            <h1 className="text-3xl font-bold">
-                {champion.id} - {champion.title}
+            <h1 className="text-5xl font-bold font-serif mb-2 text-gold2">
+                {champion.id} 
             </h1>
-            <p className="mt-2 text-gray-700">{champion.lore}</p>
+            <h2 className="text-xl mb-6 text-grey1">
+                {champion.title}
+            </h2>
+            <p className="mb-10 text-grey2">{champion.lore}</p>
 
-            <h2 className="mt-6 text-2xl font-bold">Skins</h2>
-            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-10">
                 {champion.skins.map((skin) => (
                     <SkinCard
                         key={skin.id}
