@@ -1,12 +1,12 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
-  --color-subText: #9f9b8d,
-  --color-titleText: #978351,
-  --color-gradientTop: #030912,
-  --color-gradientBottom: #1a3243,
-}
+  --color-subText: #9f9b8d;
+  --color-titleText: #978351;
+  
+  --color-gradientTop: #030912;
+  --color-gradientBottom: #1a3243;
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
+  --color-icon: #c9bf96;
+  --color-iconActive: #eee7d4;
 }
