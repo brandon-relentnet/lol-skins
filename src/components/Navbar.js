@@ -27,7 +27,7 @@ export default function NavBar() {
                             className="fill-grey3 pointer-events-none" />
 
                         <text x="95" y="32" fontSize="20" fontWeight="bold" className="fill-gold1 pointer-events-none"
-                            text-anchor="middle" font-family="serif">HOME</text>
+                            textAnchor="middle" fontFamily="serif">HOME</text>
                     </svg>
                 </Link>
 
