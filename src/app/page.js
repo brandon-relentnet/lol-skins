@@ -16,14 +16,14 @@ export default async function HomePage() {
             champion.skins.find((skin) => skin.num === 0) || champion.skins[0];
 
           return (
-            <li key={champion.id} className='bg-hextech-black/30 rounded-t border-2 border-transparent outline-icon/30 outline -outline-offset-2 hover:border-icon hover:border-2 transition duration-150'>
+            <li key={champion.id} className='bg-hextech-black/30 border-2 border-transparent outline-icon/30 outline -outline-offset-2 hover:border-icon hover:border-2 transition duration-150'>
               {/* Make the whole item clickable */}
               <Link href={`/champions/${champion.id.toLowerCase()}`}>
                 <div className="cursor-pointer">
                   <img
                     src={defaultSkin.splash_url}
                     alt={`${champion.id} default skin`}
-                    className="w-full h-auto rounded-t"
+                    className="w-full h-auto"
                   />
                   <div className='flex flex-col items-center justify-center p-4'>
                     <h2 className="text-xl text-grey1">{champion.id}</h2>

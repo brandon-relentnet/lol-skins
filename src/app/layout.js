@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className="h-screen">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-linear-195 from-gradientTop from-30% via-[#0A1428] via-40% to-gradientBottom to-95% h-screen bg-fixed text-slate-50 overflow-hidden`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-linear-185 from-gradientTop from-30% via-[#0A1428] via-40% to-gradientBottom to-95% h-screen bg-fixed text-slate-50 overflow-hidden`}
       >
         <NavBar />
         <div className="relative mt-26 h-full">

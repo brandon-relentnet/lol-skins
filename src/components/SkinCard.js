@@ -78,11 +78,11 @@ export default function SkinCard({ skin, championId, initialVote, initialStar, i
     };
 
     return (
-        <div className="bg-hextech-black/30 rounded-t border-2 border-transparent outline-icon/30 outline -outline-offset-2 hover:border-icon hover:border-2 transition duration-150">
+        <div className="bg-hextech-black/30 border-2 border-transparent outline-icon/30 outline -outline-offset-2 hover:border-icon hover:border-2 transition duration-150">
             <img
                 src={skin.splash_url}
                 alt={`${championId} ${skin.name}`}
-                className="w-full h-auto rounded-t"
+                className="w-full h-auto"
             />
             <p className="text-xl text-grey1 text-center pt-4">{skin.name}</p>
             <div className="flex justify-evenly items-center p-4">
