@@ -27,8 +27,12 @@ export default function UserStats() {
     async function fetchStats() {
         try {
             setError(null);
-
             const res = await fetch("/api/user/stats", { credentials: "include" });
+            // If the user is not logged in (401), set default stats.
+            if (res.status === 401) {
+                setStats({ usedStars: 0, usedX: 0 });
+                return;
+            }
             if (!res.ok) {
                 const data = await res.json();
                 throw new Error(data.error || "Failed to fetch user stats");
