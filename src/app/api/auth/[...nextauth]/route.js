@@ -4,7 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import pool from "@/db.js";
 import bcrypt from "bcryptjs";
 
-const authOptions = {
+export const authOptions = {
     session: {
         strategy: "jwt",
     },
@@ -38,7 +38,7 @@ const authOptions = {
         signIn: "/auth/login", // custom sign in page
         error: "/auth/error"
     },
-    secret: process.env.JWT_SECRET,
+    secret: process.env.NEXTAUTH_SECRET,
 };
 
 const handler = NextAuth(authOptions);

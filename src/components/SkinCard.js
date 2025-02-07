@@ -1,11 +1,12 @@
-"use client";
+// components/SkinCard.jsx
+'use client';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp, faArrowDown, faStar, faBan } from '@fortawesome/free-solid-svg-icons';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 
-export default function SkinCard({ skin, championId, initialVote, initialStar, initialX }) {
+export default function SkinCard({ skin, championId, isAuthenticated, initialVote, initialStar, initialX }) {
     const [totals, setTotals] = useState({
         total_votes: skin.total_votes || 0,
         total_stars: skin.total_stars || 0,
@@ -18,7 +19,6 @@ export default function SkinCard({ skin, championId, initialVote, initialStar, i
     const [errorMsg, setErrorMsg] = useState(null);
     const [successMsg, setSuccessMsg] = useState(null);
 
-    // 🛠 **Ensure UI updates when props change**
     useEffect(() => {
         setUserVote(initialVote);
         setUserStar(initialStar);
@@ -43,9 +43,6 @@ export default function SkinCard({ skin, championId, initialVote, initialStar, i
             if (data.totals) {
                 setTotals(data.totals);
             }
-            if ((star !== userStar) || (x !== userX)) {
-                window.dispatchEvent(new CustomEvent("updateUserStats"));
-            }
         } catch (err) {
             setErrorMsg(err.message);
         } finally {
@@ -54,24 +51,40 @@ export default function SkinCard({ skin, championId, initialVote, initialStar, i
     };
 
     const handleUpvote = () => {
+        if (!isAuthenticated) {
+            setErrorMsg("Please log in to vote.");
+            return;
+        }
         const newVote = userVote === 1 ? 0 : 1;
         setUserVote(newVote);
         sendVote(newVote, userStar, userX);
     };
 
     const handleDownvote = () => {
+        if (!isAuthenticated) {
+            setErrorMsg("Please log in to vote.");
+            return;
+        }
         const newVote = userVote === -1 ? 0 : -1;
         setUserVote(newVote);
         sendVote(newVote, userStar, userX);
     };
 
     const handleStar = () => {
+        if (!isAuthenticated) {
+            setErrorMsg("Please log in to vote.");
+            return;
+        }
         const newStar = !userStar;
         setUserStar(newStar);
         sendVote(userVote, newStar, userX);
     };
 
     const handleX = () => {
+        if (!isAuthenticated) {
+            setErrorMsg("Please log in to vote.");
+            return;
+        }
         const newX = !userX;
         setUserX(newX);
         sendVote(userVote, userStar, newX);
@@ -93,13 +106,13 @@ export default function SkinCard({ skin, championId, initialVote, initialStar, i
                     <div className='mr-2 text-gold1 font-bold text-2xl mb-1'>
                         {totals.total_votes}
                     </div>
-                    <button onClick={handleUpvote} disabled={loading} className={`cursor-pointer p-1`}>
+                    <button onClick={handleUpvote} disabled={loading} className="cursor-pointer p-1">
                         <FontAwesomeIcon
                             icon={faArrowUp}
                             className={`${userVote === 1 ? 'text-gold3' : 'text-grey2'} hover:text-gold3 hover:scale-105 transition duration-150`}
                         />
                     </button>
-                    <button onClick={handleDownvote} disabled={loading} className={`cursor-pointer p-1`}>
+                    <button onClick={handleDownvote} disabled={loading} className="cursor-pointer p-1">
                         <FontAwesomeIcon
                             icon={faArrowDown}
                             className={`${userVote === -1 ? 'text-gold3' : 'text-grey2'} hover:text-gold3 hover:scale-105 transition duration-150`}
@@ -110,7 +123,7 @@ export default function SkinCard({ skin, championId, initialVote, initialStar, i
                     <div className='mr-2 text-gold1 font-bold text-2xl mb-1'>
                         {totals.total_stars}
                     </div>
-                    <button onClick={handleStar} disabled={loading} className={`cursor-pointer p-1`}>
+                    <button onClick={handleStar} disabled={loading} className="cursor-pointer p-1">
                         <FontAwesomeIcon
                             icon={faStar}
                             className={`${userStar ? 'text-gold3' : 'text-grey2'} hover:text-gold3 hover:scale-105 transition duration-150`}
@@ -121,7 +134,7 @@ export default function SkinCard({ skin, championId, initialVote, initialStar, i
                     <div className='mr-2 text-gold1 font-bold text-2xl mb-1'>
                         {totals.total_x}
                     </div>
-                    <button onClick={handleX} disabled={loading} className={`cursor-pointer p-1`}>
+                    <button onClick={handleX} disabled={loading} className="cursor-pointer p-1">
                         <FontAwesomeIcon
                             icon={faBan}
                             className={`${userX ? 'text-gold3' : 'text-grey2'} hover:text-gold3 hover:scale-105 transition duration-150`}

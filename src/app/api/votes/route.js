@@ -1,34 +1,26 @@
 // app/api/votes/route.js
 import pool from '@/db.js';
 import { NextResponse } from 'next/server';
-import { randomUUID } from 'crypto';
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
 export async function POST(request) {
-    const client = await pool.connect();
-    let userId;
-    try {
-        // Extract the anonymousId cookie from the request.
-        const anonymousCookie = request.cookies.get('anonymousId');
-        if (anonymousCookie && anonymousCookie.value) {
-            userId = anonymousCookie.value;
-        } else {
-            // Generate a new anonymousId.
-            userId = randomUUID();
-        }
+    const session = await getServerSession(authOptions);
+    if (!session) {
+        return NextResponse.json({ error: "You must be logged in to vote" }, { status: 401 });
+    }
+    const userId = session.user.id;
 
-        // Read the JSON body.
+    const client = await pool.connect();
+    try {
         const { skinId, vote, star, x } = await request.json();
 
         // Validate inputs.
         if (![-1, 0, 1].includes(vote)) {
-            const res = NextResponse.json({ error: 'Invalid vote value' }, { status: 400 });
-            if (!anonymousCookie) res.cookies.set('anonymousId', userId, { httpOnly: true, path: '/', sameSite: 'lax' });
-            return res;
+            return NextResponse.json({ error: 'Invalid vote value' }, { status: 400 });
         }
         if (typeof star !== 'boolean' || typeof x !== 'boolean') {
-            const res = NextResponse.json({ error: 'Invalid star or x value' }, { status: 400 });
-            if (!anonymousCookie) res.cookies.set('anonymousId', userId, { httpOnly: true, path: '/', sameSite: 'lax' });
-            return res;
+            return NextResponse.json({ error: 'Invalid star or x value' }, { status: 400 });
         }
 
         await client.query('BEGIN');
@@ -63,9 +55,7 @@ export async function POST(request) {
         const starCount = parseInt(starCountRes.rows[0].star_count, 10);
         if (starCount > 3) {
             await client.query('ROLLBACK');
-            const res = NextResponse.json({ error: 'Exceeded maximum star votes (3)' }, { status: 400 });
-            if (!anonymousCookie) res.cookies.set('anonymousId', userId, { httpOnly: true, path: '/', sameSite: 'lax' });
-            return res;
+            return NextResponse.json({ error: 'Exceeded maximum star votes (3)' }, { status: 400 });
         }
 
         const xCountRes = await client.query(
@@ -75,9 +65,7 @@ export async function POST(request) {
         const xCount = parseInt(xCountRes.rows[0].x_count, 10);
         if (xCount > 3) {
             await client.query('ROLLBACK');
-            const res = NextResponse.json({ error: 'Exceeded maximum X votes (3)' }, { status: 400 });
-            if (!anonymousCookie) res.cookies.set('anonymousId', userId, { httpOnly: true, path: '/', sameSite: 'lax' });
-            return res;
+            return NextResponse.json({ error: 'Exceeded maximum X votes (3)' }, { status: 400 });
         }
 
         // Recalculate aggregate totals for the skin.
@@ -101,20 +89,11 @@ export async function POST(request) {
         );
 
         await client.query('COMMIT');
-        const response = NextResponse.json({ message: 'Vote updated successfully', totals });
-        // If no anonymousId cookie was present, set it now.
-        if (!anonymousCookie) {
-            response.cookies.set('anonymousId', userId, { httpOnly: true, path: '/', sameSite: 'lax' });
-        }
-        return response;
+        return NextResponse.json({ message: 'Vote updated successfully', totals });
     } catch (error) {
         await client.query('ROLLBACK');
         console.error('Error updating vote:', error);
-        const response = NextResponse.json({ error: 'Failed to update vote' }, { status: 500 });
-        if (!request.cookies.get('anonymousId')) {
-            response.cookies.set('anonymousId', userId, { httpOnly: true, path: '/', sameSite: 'lax' });
-        }
-        return response;
+        return NextResponse.json({ error: 'Failed to update vote' }, { status: 500 });
     } finally {
         client.release();
     }
