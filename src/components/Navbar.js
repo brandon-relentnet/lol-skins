@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faUsers, faCrown, faDice, faCheckToSlot } from '@fortawesome/free-solid-svg-icons';
+import AccountLevelButton from './AccountLevelButton';
 
 export default function NavBar() {
     const pathname = usePathname();
@@ -11,9 +12,9 @@ export default function NavBar() {
     return (
         <nav className='px-10 flex h-26 justify-between items-center border-b border-b-icon/30 border-t-2 border-t-gold5 bg-transparent backdrop-blur-2xl fixed top-0 left-0 w-full z-50'>
             <Link href="/games" scroll={true} className='group lg:flex items-center justify-center border border-icon/30 rounded-l-full hidden'>
-                <div className='h-[56px] w-[56px] bg-gold4 rounded-full flex justify-center items-center'>
+                <div className='h-[56px] w-[56px] bg-gold5 group-hover:bg-gold3 rounded-full flex justify-center items-center transition duration-150'>
                     <div className='h-[50px] w-[50px] border-2 border-hextech-black bg-radial from-blue5 from-10% to-blue4 group-hover:to-blue2 rounded-full flex justify-center items-center transition duration-150'>
-                        <FontAwesomeIcon icon={faDice} className='h-7 text-gold4' />
+                        <FontAwesomeIcon icon={faDice} className='h-7 text-gold5 group-hover:text-gold3 transition duration-150' />
                     </div>
                 </div>
                 <div className="relative">
@@ -55,8 +56,8 @@ export default function NavBar() {
                     <FontAwesomeIcon icon={faDice} className={`${pathname === '/games' ? 'text-gold1' : 'text-icon'} hover:text-gold1 h-7 mt-0.5`} />
                 </Link>
             </div>
-            <div className='hidden lg:block text-grey1'>
-                Socials/Donate
+            <div className='hidden lg:flex'>
+                <AccountLevelButton />
             </div>
         </nav>
     );
