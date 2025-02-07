@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar, faBan } from '@fortawesome/free-solid-svg-icons';
 
 export default function UserStats() {
     const [error, setError] = useState(null);
@@ -48,20 +50,22 @@ export default function UserStats() {
     }
 
     return (
-        <div className="fixed bottom-4 right-4 z-50">
-            <div
-                onMouseEnter={() => setShowTooltip(true)}
-                onMouseLeave={() => setShowTooltip(false)}
-                className="p-2 bg-gray-700 text-white rounded cursor-default"
-            >
-                {stats.usedStars}/3 ⭐ &nbsp;|&nbsp; {stats.usedX}/3 ❌
+        <div
+            className="fixed bottom-4 right-4 z-50"
+            onMouseEnter={() => setShowTooltip(true)}
+            onMouseLeave={() => setShowTooltip(false)}
+        >
+            <div className="p-4 bg-gold2 text-blue5 cursor-default flex items-center w-44">
+                {stats.usedStars}/3 <FontAwesomeIcon icon={faStar} className="px-2" />
+                &nbsp;|&nbsp;
+                <FontAwesomeIcon icon={faBan} className="px-2" /> {stats.usedX}/3
             </div>
 
-            {/* Simple tooltip */}
+            {/* Tooltip inside same container to prevent disappearing on hover */}
             {showTooltip && (
-                <div className="absolute right-0 bottom-12 w-48 p-2 bg-black text-white text-sm rounded shadow-md">
+                <div className="absolute right-0 bottom-15 w-44 outline outline-gold2/30 p-2 bg-hextech-black text-gold1 text-sm shadow-md">
                     <p className="mb-1">• Stars = skins you absolutely love!</p>
-                    <p>• X = skins you hate with a passion.</p>
+                    <p>• Bans = skins you hate with a passion.</p>
                 </div>
             )}
         </div>

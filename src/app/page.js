@@ -48,17 +48,17 @@ export default function HomePage() {
         <h1 className="text-5xl font-bold font-serif mb-2 text-gold2">
           Welcome to SkinBattle.LoL!
         </h1>
-        <h2 className="text-2xl mb-6 text-grey1">
+        <h2 className="text-2xl mb-16 text-grey1">
           The Ultimate Champion Skin Ranking Site
         </h2>
 
         {/* Down Arrow */}
         <button
           onClick={scrollToNextSection}
-          className="mt-10 animate-bounce"
+          className="animate-bounce cursor-pointer"
           aria-label="Scroll down"
         >
-          <FontAwesomeIcon icon={faChevronDown} className="h-10 w-10 text-grey1 hover:text-gold2 transition duration-300" />
+          <FontAwesomeIcon icon={faChevronDown} className="h-10 w-10 p-4 text-grey1 hover:text-gold2 transition duration-300" />
         </button>
       </div>
 
