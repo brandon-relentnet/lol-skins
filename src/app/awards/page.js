@@ -81,7 +81,7 @@ export default function AwardsPage() {
     const sortedSkins = getSortedSkins();
 
     return (
-        <div className="container mx-auto p-4">
+        <>
             <h1 className="text-3xl font-bold">Awards</h1>
 
             {/* --- Top 10 Starred --- */}
@@ -96,7 +96,6 @@ export default function AwardsPage() {
                                 key={skin.id}
                                 skin={skin}
                                 championId={skin.champion_id}
-                                // If your SkinCard expects user_{vote,star,x}, pass them if you want
                                 initialVote={skin.user_vote ?? 0}
                                 initialStar={skin.user_star ?? false}
                                 initialX={skin.user_x ?? false}
@@ -163,6 +162,6 @@ export default function AwardsPage() {
                     </div>
                 )}
             </section>
-        </div>
+        </>
     );
 }

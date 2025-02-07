@@ -47,7 +47,7 @@ export default function UserVotesPage() {
     const xed = skins.filter((skin) => skin.user_x);
 
     return (
-        <div className="container mx-auto p-4">
+        <>
             <h1 className="text-3xl font-bold">Your Votes</h1>
             
             {/* --- Starred --- */}
@@ -134,6 +134,6 @@ export default function UserVotesPage() {
                     </div>
                 )}
             </section>
-        </div>
+        </>
     );
 }

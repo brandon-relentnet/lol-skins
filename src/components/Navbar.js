@@ -10,7 +10,7 @@ export default function NavBar() {
 
     return (
         <nav className='px-10 flex h-26 justify-between items-center border-b border-b-icon/30 border-t-2 border-t-gold5 bg-transparent backdrop-blur-2xl fixed top-0 left-0 w-full z-50'>
-            <Link href="/games" className='group flex items-center justify-center border border-icon/30 rounded-l-full invisible md:visible'>
+            <Link href="/games" className='group flex items-center justify-center border border-icon/30 rounded-l-full invisible lg:visible'>
                 <div className='h-[56px] w-[56px] bg-gold4 rounded-full flex justify-center items-center'>
                     <div className='h-[50px] w-[50px] border-2 border-hextech-black bg-radial from-blue5 from-10% to-blue4 group-hover:to-blue2 rounded-full flex justify-center items-center transition duration-150'>
                         <FontAwesomeIcon icon={faDice} className='h-7 text-gold4' />
@@ -50,12 +50,12 @@ export default function NavBar() {
                 <Link href="/awards" className={`${pathname === '/awards' ? 'bg-linear-to-b from-40% from-transparent via-60% via-gold2/10 to-99% to-gold2/20' : ''} h-full w-16 flex justify-center items-center transition duration-350 hover:bg-linear-to-b hover:from-40% hover:from-transparent hover:via-60% hover:via-gold2/10 hover:to-99% hover:to-gold2/40`}>
                     <FontAwesomeIcon icon={faCrown} className={`${pathname === '/awards' ? 'text-gold1' : 'text-icon'} hover:text-gold1 h-7 mt-0.5`} />
                 </Link>
-                <div className='h-[70%] w-[2px] bg-gradient-to-b from-transparent via-icon to-transparent mt-0.5 visible md:invisible' />
-                <Link href="/games" className={`${pathname === '/games' ? 'bg-linear-to-b from-40% from-transparent via-60% via-gold2/10 to-99% to-gold2/20' : ''} h-full w-16 flex justify-center items-center transition duration-350 hover:bg-linear-to-b hover:from-40% hover:from-transparent hover:via-60% hover:via-gold2/10 hover:to-99% hover:to-gold2/40 visible md:invisible`}>
+                <div className='h-[70%] w-[2px] bg-gradient-to-b from-transparent via-icon to-transparent mt-0.5 visible lg:invisible' />
+                <Link href="/games" className={`${pathname === '/games' ? 'bg-linear-to-b from-40% from-transparent via-60% via-gold2/10 to-99% to-gold2/20' : ''} h-full w-16 flex justify-center items-center transition duration-350 hover:bg-linear-to-b hover:from-40% hover:from-transparent hover:via-60% hover:via-gold2/10 hover:to-99% hover:to-gold2/40 visible lg:invisible`}>
                     <FontAwesomeIcon icon={faDice} className={`${pathname === '/games' ? 'text-gold1' : 'text-icon'} hover:text-gold1 h-7 mt-0.5`} />
                 </Link>
             </div>
-            <div className='invisible md:visible'>
+            <div className='invisible lg:visible'>
                 Socials/Donate
             </div>
         </nav>
