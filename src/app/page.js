@@ -1,8 +1,9 @@
 "use client";
 
 import { useRef } from "react";
+import Link from "next/link";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown, faArrowUp, faArrowDown, faStar, faBan } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown, faArrowUp, faArrowDown, faStar, faBan, faGamepad, faTrophy, faComments } from '@fortawesome/free-solid-svg-icons';
 import SkinCard from "@/components/SkinCard";
 
 const icons = [
@@ -24,14 +25,28 @@ const icons = [
   }
 ];
 
+const upcomingFeatures = [
+  {
+    icon: faGamepad,
+    title: "Skin-Based Games",
+    blurb: "Compete in fun challenges that test your skin knowledge, with rewards based on community votes."
+  },
+  {
+    icon: faTrophy,
+    title: "Leaderboards & Achievements",
+    blurb: "Track your votes, climb the rankings, and unlock achievements for your contributions."
+  },
+  {
+    icon: faComments,
+    title: "Community Polls & Discussions",
+    blurb: "Join skin-specific discussions, vote on upcoming features, and help shape the platform."
+  }
+];
+
 export default function HomePage() {
   const nextSectionRef = useRef(null);
-
-  const scrollToNextSection = () => {
-    if (nextSectionRef.current) {
-      nextSectionRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  };
+  const comingNextRef = useRef(null);
+  const voteRef = useRef(null);
 
   const skin = {
     id: "Thresh",
@@ -54,7 +69,7 @@ export default function HomePage() {
 
         {/* Down Arrow */}
         <button
-          onClick={scrollToNextSection}
+          onClick={() => nextSectionRef.current.scrollIntoView({ behavior: "smooth" })}
           className="animate-bounce cursor-pointer"
           aria-label="Scroll down"
         >
@@ -62,9 +77,9 @@ export default function HomePage() {
         </button>
       </div>
 
-      {/* Next Section */}
-      <div ref={nextSectionRef} className="py-20 scroll-mt-26 flex justify-center items-center flex-col">
-        <h2 className="text-3xl font-bold text-gold2 text-center mb-4">How It Works</h2>
+      {/* How It Works Section */}
+      <div ref={nextSectionRef} className="py-20 scroll-mt-26 flex justify-center items-center flex-col mb-26">
+        <h2 className="text-4xl font-serif font-bold text-gold2 text-center mb-4">How It Works</h2>
         <p className="text-lg text-grey1 text-center max-w-2xl mx-auto mb-10">
           Tired of scrolling through endless Reddit threads trying to figure out which skin is the best?
           SkinBattle.lol is here to settle the debate once and for all!
@@ -72,7 +87,7 @@ export default function HomePage() {
           helping create a definitive list of the best (and worst) skins for every champion.
         </p>
 
-        <div className="mb-10 px-10 lg:px-20 xl:px-30 2xl:px-40 flex justify-center items-center space-x-6 flex-col lg:flex-row ">
+        <div className="mb-16 px-10 lg:px-20 xl:px-30 2xl:px-40 flex justify-center items-center space-x-6 flex-col lg:flex-row ">
           <div className="w-full lg:w-2/3 mb-6">
             <SkinCard
               key={skin.id}
@@ -98,6 +113,55 @@ export default function HomePage() {
             ))}
           </div>
         </div>
+
+        {/* Scroll to What's Coming Next */}
+        <button
+          onClick={() => comingNextRef.current.scrollIntoView({ behavior: "smooth" })}
+          className="animate-bounce cursor-pointer"
+          aria-label="Scroll down"
+        >
+          <FontAwesomeIcon icon={faChevronDown} className="h-10 w-10 p-4 text-grey1 hover:text-gold2 transition duration-300" />
+        </button>
+      </div>
+
+      {/* What's Coming Next Section */}
+      <div ref={comingNextRef} className="py-40 scroll-mt-26 flex justify-center items-center flex-col w-full mb-26">
+        <h2 className="text-4xl font-serif font-bold text-gold2 text-center mb-6">What's Coming Next?</h2>
+        <p className="text-lg text-grey1 text-center max-w-2xl mx-auto mb-12">
+          SkinBattle.lol is just getting started! Here's a sneak peek at upcoming features that will make ranking and comparing skins even more exciting.
+        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 px-6 lg:px-20 mb-16">
+          {upcomingFeatures.map((feature, index) => (
+            <div key={index} className="flex flex-col items-center text-center">
+              <FontAwesomeIcon icon={feature.icon} className="h-12 w-12 text-gold2 mb-4" />
+              <h3 className="text-xl font-serif font-bold text-gold2 mb-2">{feature.title}</h3>
+              <p className="text-grey1 text-lg">{feature.blurb}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Scroll to What's Coming Next */}
+        <button
+          onClick={() => voteRef.current.scrollIntoView({ behavior: "smooth" })}
+          className="animate-bounce cursor-pointer"
+          aria-label="Scroll down"
+        >
+          <FontAwesomeIcon icon={faChevronDown} className="h-10 w-10 p-4 text-grey1 hover:text-gold2 transition duration-300" />
+        </button>
+      </div>
+
+      {/* Call to Action (CTA) Section */}
+      <div ref={voteRef} className="py-40 scroll-mt-26 flex flex-col items-center justify-center w-full text-center mb-16">
+        <h2 className="text-4xl font-serif font-bold text-gold2 mb-6">
+          Ready to Start Voting?
+        </h2>
+        <p className="text-lg text-grey1 max-w-2xl mx-auto mb-8">
+          Help shape the rankings and decide which skins reign supreme. Head over to the champions page and start voting on your favorites now!
+        </p>
+        <Link href="/champions" className="bg-hextech-black/30 border-2 border-transparent outline-icon/30 outline -outline-offset-2 hover:border-icon hover:border-2 transition duration-150 font-serif text-grey1 hover:text-gold1 text-lg font-bold px-8 py-4 shadow-lg">
+            Vote Now
+        </Link>
       </div>
     </>
   );
