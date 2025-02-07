@@ -21,15 +21,15 @@ export async function GET(request, { params }) {
         const champion = championResult.rows[0];
 
         const skinsQuery = `
-      SELECT s.*, 
-             uv.vote AS user_vote, 
-             uv.star AS user_star, 
-             uv.x AS user_x
-      FROM skins s
-      LEFT JOIN user_skin_votes uv ON s.id = uv.skin_id AND uv.user_id = $1
-      WHERE LOWER(s.champion_id) = LOWER($2)
-      ORDER BY s.num ASC
-    `;
+            SELECT s.*, 
+                    uv.vote AS user_vote, 
+                    uv.star AS user_star, 
+                    uv.x AS user_x
+            FROM skins s
+            LEFT JOIN user_skin_votes uv ON s.id = uv.skin_id AND uv.user_id = $1
+            WHERE LOWER(s.champion_id) = LOWER($2)
+            ORDER BY s.num ASC
+            `;
         const skinsResult = await pool.query(skinsQuery, [userId, id]);
         champion.skins = skinsResult.rows;
         return NextResponse.json(champion);

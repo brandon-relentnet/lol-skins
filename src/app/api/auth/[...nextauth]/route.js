@@ -15,30 +15,44 @@ export const authOptions = {
                 email: { label: "Email", type: "email", placeholder: "user@example.com" },
                 password: { label: "Password", type: "password" }
             },
-            async authorize(credentials, req) {
+            async authorize(credentials) {
                 const email = credentials.email;
                 const password = credentials.password;
-                // Query the user from the database.
                 const result = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
                 if (result.rowCount === 0) {
                     throw new Error("No user found with this email");
                 }
                 const user = result.rows[0];
-                // Compare the given password with the stored hash.
                 const isValid = await bcrypt.compare(password, user.password_hash);
                 if (!isValid) {
                     throw new Error("Invalid password");
                 }
-                // Return only the user fields that you want to expose in the session.
-                return { id: user.id, email: user.email };
+                // Ensure the returned user object includes an id as a string.
+                return { id: String(user.id), email: user.email };
             }
         })
     ],
-    pages: {
-        signIn: "/auth/login", // custom sign in page
-        error: "/auth/error"
+    callbacks: {
+        async jwt({ token, user }) {
+            // If user is available during login, store its id in token.
+            if (user) {
+                token.id = user.id;
+            }
+            return token;
+        },
+        async session({ session, token }) {
+            // Add the id from token into session.user.
+            if (token && session.user) {
+                session.user.id = token.id;
+            }
+            return session;
+        }
     },
     secret: process.env.NEXTAUTH_SECRET,
+    pages: {
+        signIn: "/auth/login",
+        error: "/auth/error"
+    }
 };
 
 const handler = NextAuth(authOptions);
