@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import SkinCard from "@/components/SkinCard";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import { useRef } from "react";
 import Dropdown from "@/components/Dropdown";
 
 const sortOptions = [
@@ -28,7 +27,11 @@ export default function AwardsPage() {
     const [allSkins, setAllSkins] = useState([]);
 
     // Sorting controls
-    const [sortBy, setSortBy] = useState("total_votes_desc"); // or any default
+    const [sortBy, setSortBy] = useState("total_votes_desc");
+
+    // Pagination state
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 24; // Adjust number of skins per page as needed
 
     useEffect(() => {
         async function fetchAwards() {
@@ -55,9 +58,14 @@ export default function AwardsPage() {
         fetchAwards();
     }, []);
 
+    // Reset current page whenever sorting changes
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [sortBy]);
+
     // A function to return a sorted copy of allSkins based on sortBy
     function getSortedSkins() {
-        const sorted = [...allSkins]; // copy
+        const sorted = [...allSkins]; // create a copy
         switch (sortBy) {
             case "total_votes_desc":
                 sorted.sort((a, b) => (b.total_votes || 0) - (a.total_votes || 0));
@@ -77,9 +85,7 @@ export default function AwardsPage() {
             case "total_x_asc":
                 sorted.sort((a, b) => (a.total_x || 0) - (b.total_x || 0));
                 break;
-            // Add more sorts if needed
             default:
-                // default no sort or some other logic
                 break;
         }
         return sorted;
@@ -96,8 +102,14 @@ export default function AwardsPage() {
         return <p className="text-red-500">Error: {error}</p>;
     }
 
-    // The sorted array for the "All skins" section
+    // Get the sorted skins array
     const sortedSkins = getSortedSkins();
+
+    // Pagination calculations
+    const totalPages = Math.ceil(sortedSkins.length / itemsPerPage);
+    const indexOfLastSkin = currentPage * itemsPerPage;
+    const indexOfFirstSkin = indexOfLastSkin - itemsPerPage;
+    const currentSkins = sortedSkins.slice(indexOfFirstSkin, indexOfLastSkin);
 
     return (
         <div className="container mx-auto p-4 my-26">
@@ -125,7 +137,9 @@ export default function AwardsPage() {
             {/* --- Top 10 Starred --- */}
             <section ref={nextSectionRef} className="scroll-mt-36 mb-36">
                 <h2 className="text-4xl font-serif font-semibold mb-4 text-gold2">Top 10 Most Starred Skins</h2>
-                <p className="text-lg text-grey1 mb-10">These skins aren’t just good—they’re <span className="italic">legendary</span>. The most beloved, the most iconic, and the ones summoners can’t get enough of.</p>
+                <p className="text-lg text-grey1 mb-10">
+                    These skins aren’t just good—they’re <span className="italic">legendary</span>. The most beloved, the most iconic, and the ones summoners can’t get enough of.
+                </p>
                 {topStarred.length === 0 ? (
                     <p>No data yet.</p>
                 ) : (
@@ -147,7 +161,9 @@ export default function AwardsPage() {
             {/* --- Top 10 X'ed --- */}
             <section className="mb-36">
                 <h2 className="text-4xl font-serif font-semibold mb-4 text-gold2">Top 10 Most Banned Skins</h2>
-                <p className="text-lg text-grey1 mb-10">Not every skin is a masterpiece. These are the ones players love to hate.</p>
+                <p className="text-lg text-grey1 mb-10">
+                    Not every skin is a masterpiece. These are the ones players love to hate.
+                </p>
                 {topXed.length === 0 ? (
                     <p>No data yet.</p>
                 ) : (
@@ -166,12 +182,14 @@ export default function AwardsPage() {
                 )}
             </section>
 
-            {/* --- All skins with sorting --- */}
+            {/* --- All skins with sorting and pagination --- */}
             <section>
                 <div className="mb-10 flex justify-between items-center">
                     <div>
                         <h2 className="text-4xl font-serif font-semibold mb-4 text-gold2">All Skins</h2>
-                        <p className="text-lg text-grey1">Every champion. Every style. Every era. Browse the full collection and sort to find your next favorite—or your next ban.</p>
+                        <p className="text-lg text-grey1">
+                            Every champion. Every style. Every era. Browse the full collection and sort to find your next favorite—or your next ban.
+                        </p>
                     </div>
                     <div>
                         <Dropdown
@@ -184,20 +202,42 @@ export default function AwardsPage() {
                 </div>
 
                 {sortedSkins.length === 0 ? (
-                    <p>No skins found.</p>
+                    <p className="text-lg text-grey1">No skins found.</p>
                 ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                        {sortedSkins.map((skin) => (
-                            <SkinCard
-                                key={skin.id}
-                                skin={skin}
-                                championId={skin.champion_id}
-                                initialVote={skin.user_vote ?? 0}
-                                initialStar={skin.user_star ?? false}
-                                initialX={skin.user_x ?? false}
-                            />
-                        ))}
-                    </div>
+                    <>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                            {currentSkins.map((skin) => (
+                                <SkinCard
+                                    key={skin.id}
+                                    skin={skin}
+                                    championId={skin.champion_id}
+                                    initialVote={skin.user_vote ?? 0}
+                                    initialStar={skin.user_star ?? false}
+                                    initialX={skin.user_x ?? false}
+                                />
+                            ))}
+                        </div>
+                        {/* Pagination Controls */}
+                        <div className="mt-8 flex justify-center items-center space-x-4">
+                            <button
+                                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                                disabled={currentPage === 1}
+                                className="bg-hextech-black/30 border-2 border-transparent outline-icon/30 outline -outline-offset-2 hover:border-icon hover:border-2 transition duration-150 font-serif text-grey1 hover:text-gold1 text-lg font-bold px-8 py-4 shadow-lg disabled:opacity-50"
+                            >
+                                Previous
+                            </button>
+                            <span className="text-lg text-grey1">
+                                Page {currentPage} of {totalPages}
+                            </span>
+                            <button
+                                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                                disabled={currentPage === totalPages}
+                                className="bg-hextech-black/30 border-2 border-transparent outline-icon/30 outline -outline-offset-2 hover:border-icon hover:border-2 transition duration-150 font-serif text-grey1 hover:text-gold1 text-lg font-bold px-8 py-4 shadow-lg disabled:opacity-50"
+                            >
+                                Next
+                            </button>
+                        </div>
+                    </>
                 )}
             </section>
         </div>
