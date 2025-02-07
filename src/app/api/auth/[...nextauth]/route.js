@@ -27,23 +27,26 @@ export const authOptions = {
                 if (!isValid) {
                     throw new Error("Invalid password");
                 }
+                if (!user.is_verified) {
+                    throw new Error("Please verify your email before logging in.");
+                }
                 // Ensure the returned user object includes an id as a string.
-                return { id: String(user.id), email: user.email };
+                return { id: String(user.id), email: user.email, username: user.username };
             }
         })
     ],
     callbacks: {
         async jwt({ token, user }) {
-            // If user is available during login, store its id in token.
             if (user) {
                 token.id = user.id;
+                token.email = user.email;
             }
             return token;
         },
         async session({ session, token }) {
-            // Add the id from token into session.user.
             if (token && session.user) {
                 session.user.id = token.id;
+                session.user.email = token.email;
             }
             return session;
         }

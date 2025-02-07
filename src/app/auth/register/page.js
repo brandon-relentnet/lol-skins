@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
+    const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
@@ -19,7 +20,7 @@ export default function RegisterPage() {
             const res = await fetch("/api/auth/register", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, password }),
+                body: JSON.stringify({ username, email, password }),
             });
             const data = await res.json();
             if (!res.ok) {
@@ -33,9 +34,21 @@ export default function RegisterPage() {
     };
 
     return (
-        <div className="container mx-auto p-4">
+        <div className="container mx-auto pt-26">
             <h1 className="text-3xl font-bold mb-4">Register</h1>
             <form onSubmit={handleSubmit} className="max-w-md">
+                <div className="mb-4">
+                    <label htmlFor="username" className="block font-medium">Username:</label>
+                    <input
+                        type="username"
+                        id="username"
+                        placeholder="Your username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        className="border px-2 py-1 w-full"
+                        required
+                    />
+                </div>
                 <div className="mb-4">
                     <label htmlFor="email" className="block font-medium">Email:</label>
                     <input
@@ -48,6 +61,7 @@ export default function RegisterPage() {
                         required
                     />
                 </div>
+                
                 <div className="mb-4">
                     <label htmlFor="password" className="block font-medium">Password:</label>
                     <input

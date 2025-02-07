@@ -4,6 +4,7 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function LoginPage() {
     const [email, setEmail] = useState("");
@@ -27,7 +28,7 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="container mx-auto p-4">
+        <div className="container mx-auto pt-26">
             <h1 className="text-3xl font-bold mb-4">Login</h1>
             <form onSubmit={handleSubmit} className="max-w-md">
                 <div className="mb-4">
@@ -60,6 +61,7 @@ export default function LoginPage() {
                 >
                     Sign In
                 </button>
+                <Link href="/auth/register" className="ml-4 text-blue-500 hover:underline">Register Here</Link>
             </form>
             {errorMsg && <p className="mt-4 text-red-600">{errorMsg}</p>}
         </div>
