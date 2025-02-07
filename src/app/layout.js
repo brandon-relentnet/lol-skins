@@ -23,9 +23,7 @@ export default function RootLayout({ children }) {
     <html lang="en" className="bg-linear-220 from-gradientTop via-[#0A1428] to-gradientBottom bg-fixed">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}>
         <NavBar />
-        <div className="container mx-auto p-4 mt-26">
-          {children}
-        </div>
+        {children}
         <UserStats />
       </body>
     </html>

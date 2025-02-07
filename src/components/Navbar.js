@@ -10,7 +10,7 @@ export default function NavBar() {
 
     return (
         <nav className='px-10 flex h-26 justify-between items-center border-b border-b-icon/30 border-t-2 border-t-gold5 bg-transparent backdrop-blur-2xl fixed top-0 left-0 w-full z-50'>
-            <Link href="/games" className='group lg:flex items-center justify-center border border-icon/30 rounded-l-full hidden'>
+            <Link href="/games" scroll={true} className='group lg:flex items-center justify-center border border-icon/30 rounded-l-full hidden'>
                 <div className='h-[56px] w-[56px] bg-gold4 rounded-full flex justify-center items-center'>
                     <div className='h-[50px] w-[50px] border-2 border-hextech-black bg-radial from-blue5 from-10% to-blue4 group-hover:to-blue2 rounded-full flex justify-center items-center transition duration-150'>
                         <FontAwesomeIcon icon={faDice} className='h-7 text-gold4' />
@@ -35,23 +35,23 @@ export default function NavBar() {
                 </div>
             </Link>
             <div className='flex h-26 pb-0.5 justify-center items-center absolute left-1/2 transform -translate-x-1/2'>
-                <Link href="/" className={`${pathname === '/' ? 'bg-linear-to-b from-40% from-transparent via-60% via-gold2/10 to-99% to-gold2/20' : ''} h-full w-16 flex justify-center items-center transition duration-350 hover:bg-linear-to-b hover:from-40% hover:from-transparent hover:via-60% hover:via-gold2/10 hover:to-99% hover:to-gold2/40`}>
+                <Link href="/" scroll={true} className={`${pathname === '/' ? 'bg-linear-to-b from-40% from-transparent via-60% via-gold2/10 to-99% to-gold2/20' : ''} h-full w-16 flex justify-center items-center transition duration-350 hover:bg-linear-to-b hover:from-40% hover:from-transparent hover:via-60% hover:via-gold2/10 hover:to-99% hover:to-gold2/40`}>
                     <FontAwesomeIcon icon={faHouse} className={`${pathname === '/' ? 'text-gold1' : 'text-icon'} hover:text-gold1 h-7 mt-0.5`} />
                 </Link>
                 <div className='h-[70%] w-[2px] mt-0.5 bg-gradient-to-b from-transparent via-icon to-transparent' />
-                <Link href="/champions" className={`${pathname === '/champions' ? 'bg-linear-to-b from-40% from-transparent via-60% via-gold2/10 to-99% to-gold2/20' : ''} h-full w-16 flex justify-center items-center transition duration-350 hover:bg-linear-to-b hover:from-40% hover:from-transparent hover:via-60% hover:via-gold2/10 hover:to-99% hover:to-gold2/40`}>
+                <Link href="/champions" scroll={true} className={`${pathname === '/champions' ? 'bg-linear-to-b from-40% from-transparent via-60% via-gold2/10 to-99% to-gold2/20' : ''} h-full w-16 flex justify-center items-center transition duration-350 hover:bg-linear-to-b hover:from-40% hover:from-transparent hover:via-60% hover:via-gold2/10 hover:to-99% hover:to-gold2/40`}>
                     <FontAwesomeIcon icon={faUsers} className={`${pathname === '/champions' ? 'text-gold1' : 'text-icon'} hover:text-gold1 h-7 mt-0.5`} />
                 </Link>
                 <div className='h-[70%] w-[2px] mt-0.5 bg-gradient-to-b from-transparent via-icon to-transparent' />
-                <Link href="/user/votes" className={`${pathname === '/user/votes' ? 'bg-linear-to-b from-40% from-transparent via-60% via-gold2/10 to-99% to-gold2/20' : ''} h-full w-16 flex justify-center items-center transition duration-350 hover:bg-linear-to-b hover:from-40% hover:from-transparent hover:via-60% hover:via-gold2/10 hover:to-99% hover:to-gold2/40`}>
+                <Link href="/user/votes" scroll={true} className={`${pathname === '/user/votes' ? 'bg-linear-to-b from-40% from-transparent via-60% via-gold2/10 to-99% to-gold2/20' : ''} h-full w-16 flex justify-center items-center transition duration-350 hover:bg-linear-to-b hover:from-40% hover:from-transparent hover:via-60% hover:via-gold2/10 hover:to-99% hover:to-gold2/40`}>
                     <FontAwesomeIcon icon={faCheckToSlot} className={`${pathname === '/user/votes' ? 'text-gold1' : 'text-icon'} hover:text-gold1 h-7 mt-0.5`} />
                 </Link>
                 <div className='h-[70%] w-[2px] bg-gradient-to-b from-transparent via-icon to-transparent mt-0.5' />
-                <Link href="/awards" className={`${pathname === '/awards' ? 'bg-linear-to-b from-40% from-transparent via-60% via-gold2/10 to-99% to-gold2/20' : ''} h-full w-16 flex justify-center items-center transition duration-350 hover:bg-linear-to-b hover:from-40% hover:from-transparent hover:via-60% hover:via-gold2/10 hover:to-99% hover:to-gold2/40`}>
+                <Link href="/awards" scroll={true} className={`${pathname === '/awards' ? 'bg-linear-to-b from-40% from-transparent via-60% via-gold2/10 to-99% to-gold2/20' : ''} h-full w-16 flex justify-center items-center transition duration-350 hover:bg-linear-to-b hover:from-40% hover:from-transparent hover:via-60% hover:via-gold2/10 hover:to-99% hover:to-gold2/40`}>
                     <FontAwesomeIcon icon={faCrown} className={`${pathname === '/awards' ? 'text-gold1' : 'text-icon'} hover:text-gold1 h-7 mt-0.5`} />
                 </Link>
                 <div className='h-[70%] w-[2px] bg-gradient-to-b from-transparent via-icon to-transparent mt-0.5 block lg:hidden' />
-                <Link href="/games" className={`${pathname === '/games' ? 'bg-linear-to-b from-40% from-transparent via-60% via-gold2/10 to-99% to-gold2/20' : ''} h-full w-16 flex justify-center items-center transition duration-350 hover:bg-linear-to-b hover:from-40% hover:from-transparent hover:via-60% hover:via-gold2/10 hover:to-99% hover:to-gold2/40 lg:hidden`}>
+                <Link href="/games" scroll={true} className={`${pathname === '/games' ? 'bg-linear-to-b from-40% from-transparent via-60% via-gold2/10 to-99% to-gold2/20' : ''} h-full w-16 flex justify-center items-center transition duration-350 hover:bg-linear-to-b hover:from-40% hover:from-transparent hover:via-60% hover:via-gold2/10 hover:to-99% hover:to-gold2/40 lg:hidden`}>
                     <FontAwesomeIcon icon={faDice} className={`${pathname === '/games' ? 'text-gold1' : 'text-icon'} hover:text-gold1 h-7 mt-0.5`} />
                 </Link>
             </div>

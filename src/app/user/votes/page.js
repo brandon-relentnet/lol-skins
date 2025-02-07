@@ -1,9 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import SkinCard from "@/components/SkinCard";
 
 export default function UserVotesPage() {
+    const nextSectionRef = useRef(null);
+
     const [skins, setSkins] = useState([]);
     const [loading, setLoading] = useState(true);
     const [errorMsg, setErrorMsg] = useState(null);
@@ -37,7 +41,11 @@ export default function UserVotesPage() {
         fetchVotes();
     }, []);
 
-    if (loading) return <p>Loading your votes...</p>;
+    if (loading) return (
+        <div className="fixed inset-0 flex items-center justify-center bg-linear-220 from-gradientTop via-[#0A1428] to-gradientBottom bg-fixed">
+            <p className="text-3xl font-serif font-bold text-gold2">Blaming the jungler...</p>
+        </div>
+    );
     if (errorMsg) return <p className="text-red-500">{errorMsg}</p>;
 
     // Separate into categories
@@ -47,14 +55,32 @@ export default function UserVotesPage() {
     const xed = skins.filter((skin) => skin.user_x);
 
     return (
-        <>
-            <h1 className="text-3xl font-bold">Your Votes</h1>
-            
+        <div className="container mx-auto p-4 my-26">
+            {/* Hero Section */}
+            <div className="h-screen w-full flex flex-col items-center justify-center text-center">
+                <h1 className="text-5xl font-bold font-serif mb-2 text-gold2">
+                    Votes
+                </h1>
+                <h2 className="text-2xl mb-16 text-grey1">
+                    Your votes are <span className="italic">godlike</span>. Every upvote, downvote, star, and ban contributes to the ultimate ranking of skins. <br />
+                    View all the skins you’ve interacted with below.
+                </h2>
+
+                {/* Down Arrow */}
+                <button
+                    onClick={() => nextSectionRef.current.scrollIntoView({ behavior: "smooth" })}
+                    className="animate-bounce cursor-pointer"
+                    aria-label="Scroll down"
+                >
+                    <FontAwesomeIcon icon={faChevronDown} className="h-10 w-10 p-4 text-grey1 hover:text-gold2 transition duration-300" />
+                </button>
+            </div>
+
             {/* --- Starred --- */}
-            <section className="mt-6">
-                <h2 className="text-2xl font-semibold mb-2">Starred Skins</h2>
+            <section ref={nextSectionRef} className="scroll-mt-36 mb-36">
+                <h2 className="text-4xl font-serif font-semibold mb-10 text-gold2">Starred Skins</h2>
                 {starred.length === 0 ? (
-                    <p>No starred skins yet!</p>
+                    <p className="text-lg text-grey1">No starred skins yet!</p>
                 ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                         {starred.map((skin) => (
@@ -72,10 +98,10 @@ export default function UserVotesPage() {
             </section>
 
             {/* --- X'ed --- */}
-            <section className="mt-6">
-                <h2 className="text-2xl font-semibold mb-2">X'ed Skins</h2>
+            <section className="mb-36">
+                <h2 className="text-4xl font-serif font-semibold mb-10 text-gold2">Banned Skins</h2>
                 {xed.length === 0 ? (
-                    <p>No X'ed skins yet!</p>
+                    <p className="text-lg text-grey1">No banned skins yet!</p>
                 ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                         {xed.map((skin) => (
@@ -93,10 +119,10 @@ export default function UserVotesPage() {
             </section>
 
             {/* --- Upvoted --- */}
-            <section className="mt-6">
-                <h2 className="text-2xl font-semibold mb-2">Upvoted Skins</h2>
+            <section className="mb-36">
+                <h2 className="text-4xl font-serif font-semibold mb-10 text-gold2">Upvoted Skins</h2>
                 {upvoted.length === 0 ? (
-                    <p>No upvoted skins yet!</p>
+                    <p className="text-lg text-grey1">No upvoted skins yet!</p>
                 ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                         {upvoted.map((skin) => (
@@ -115,10 +141,10 @@ export default function UserVotesPage() {
             </section>
 
             {/* --- Downvoted --- */}
-            <section className="mt-6">
-                <h2 className="text-2xl font-semibold mb-2">Downvoted Skins</h2>
+            <section>
+                <h2 className="text-4xl font-serif font-semibold mb-10 text-gold2">Downvoted Skins</h2>
                 {downvoted.length === 0 ? (
-                    <p>No downvoted skins yet!</p>
+                    <p className="text-lg text-grey1">No downvoted skins yet!</p>
                 ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                         {downvoted.map((skin) => (
@@ -134,6 +160,6 @@ export default function UserVotesPage() {
                     </div>
                 )}
             </section>
-        </>
+        </div>
     );
 }

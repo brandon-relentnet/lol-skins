@@ -100,7 +100,7 @@ export default function AwardsPage() {
     const sortedSkins = getSortedSkins();
 
     return (
-        <>
+        <div className="container mx-auto p-4 my-26">
             {/* Hero Section */}
             <div className="h-screen w-full flex flex-col items-center justify-center text-center">
                 <h1 className="text-5xl font-bold font-serif mb-2 text-gold2">
@@ -167,7 +167,7 @@ export default function AwardsPage() {
             </section>
 
             {/* --- All skins with sorting --- */}
-            <section className="mb-36">
+            <section>
                 <div className="mb-10 flex justify-between items-center">
                     <div>
                         <h2 className="text-4xl font-serif font-semibold mb-4 text-gold2">All Skins</h2>
@@ -200,6 +200,6 @@ export default function AwardsPage() {
                     </div>
                 )}
             </section>
-        </>
+        </div>
     );
 }

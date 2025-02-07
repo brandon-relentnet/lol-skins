@@ -36,7 +36,7 @@ export default function Dropdown({
             <button
                 type="button"
                 onClick={() => setIsOpen(!isOpen)}
-                className="w-full px-4 py-2 text-left bg-hextech-black outline outline-gold2/30 border-2 border-transparent hover:border-gold2 text-gold1 shadow flex justify-between items-center transition-colors duration-150"
+                className="w-full px-4 py-2 text-left bg-hextech-black outline outline-gold2/30 border-2 border-transparent hover:border-icon text-gold1 shadow flex justify-between items-center transition-colors duration-150"
             >
                 <span>{label}</span>
                 <svg

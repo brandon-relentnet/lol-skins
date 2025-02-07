@@ -57,7 +57,7 @@ export default function HomePage() {
   };
 
   return (
-    <>
+    <div className="container mx-auto p-4 my-26">
       {/* Hero Section */}
       <div className="h-screen w-full flex flex-col items-center justify-center text-center">
         <h1 className="text-5xl font-bold font-serif mb-2 text-gold2">
@@ -152,7 +152,7 @@ export default function HomePage() {
       </div>
 
       {/* Call to Action (CTA) Section */}
-      <div ref={voteRef} className="py-40 scroll-mt-26 flex flex-col items-center justify-center w-full text-center mb-26">
+      <div ref={voteRef} className="py-40 scroll-mt-26 flex flex-col items-center justify-center w-full text-center">
         <h2 className="text-4xl font-serif font-bold text-gold2 mb-6">
           Ready to Start Voting?
         </h2>
@@ -163,6 +163,6 @@ export default function HomePage() {
             Vote Now
         </Link>
       </div>
-    </>
+    </div>
   );
 }
