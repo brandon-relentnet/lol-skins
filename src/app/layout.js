@@ -11,7 +11,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className="bg-linear-220 from-gradientTop via-[#0A1428] to-gradientBottom bg-fixed">
-      <body className={` antialiased min-h-screen`}>
+      <body className={`antialiased min-h-screen`}>
         <NavBar />
         {children}
         <ChampionSearch />

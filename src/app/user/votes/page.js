@@ -55,7 +55,7 @@ export default function UserVotesPage() {
     const xed = skins.filter((skin) => skin.user_x);
 
     return (
-        <div className="container mx-auto p-4 my-26">
+        <div className="container mx-auto p-4 py-26">
             {/* Hero Section */}
             <div className="h-screen w-full flex flex-col items-center justify-center text-center">
                 <h1 className="text-5xl font-bold font-serif mb-2 text-gold2">

@@ -47,7 +47,7 @@ export default function ChampionPage() {
   }
 
   return (
-    <div className="container mx-auto p-4 mt-36">
+    <div className="container mx-auto p-4 pt-36">
       <h1 className="text-5xl font-bold font-serif mb-2 text-gold2">Champions</h1>
       <h2 className="text-xl mb-6 text-grey1">Click on a champion card to view and vote on their skins.</h2>
       <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">

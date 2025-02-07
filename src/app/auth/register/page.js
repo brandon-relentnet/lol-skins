@@ -1,32 +1,32 @@
-'use client';
+// app/auth/register/page.jsx
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [message, setMessage] = useState(null);
-    const [errorMsg, setErrorMsg] = useState(null);
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [message, setMessage] = useState("");
+    const [errorMsg, setErrorMsg] = useState("");
     const router = useRouter();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setMessage(null);
-        setErrorMsg(null);
+        setErrorMsg("");
+        setMessage("");
         try {
-            const res = await fetch('/api/auth/register', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+            const res = await fetch("/api/auth/register", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password }),
             });
             const data = await res.json();
             if (!res.ok) {
-                throw new Error(data.error || 'Registration failed');
+                throw new Error(data.error || "Registration failed");
             }
-            setMessage('Registration successful. You can now log in.');
-            // Optionally, redirect after successful registration:
-            router.push('/auth/login');
+            setMessage("Registration successful, please log in.");
+            router.push("/auth/login");
         } catch (error) {
             setErrorMsg(error.message);
         }
@@ -41,6 +41,7 @@ export default function RegisterPage() {
                     <input
                         type="email"
                         id="email"
+                        placeholder="user@example.com"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         className="border px-2 py-1 w-full"
@@ -52,6 +53,7 @@ export default function RegisterPage() {
                     <input
                         type="password"
                         id="password"
+                        placeholder="Your password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         className="border px-2 py-1 w-full"

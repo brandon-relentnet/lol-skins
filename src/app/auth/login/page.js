@@ -1,35 +1,28 @@
-'use client';
+// app/auth/login/page.jsx
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState } from "react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [message, setMessage] = useState(null);
-    const [errorMsg, setErrorMsg] = useState(null);
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [errorMsg, setErrorMsg] = useState("");
     const router = useRouter();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setMessage(null);
-        setErrorMsg(null);
-        try {
-            const res = await fetch('/api/auth/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password }),
-            });
-            const data = await res.json();
-            if (!res.ok) {
-                throw new Error(data.error || 'Login failed');
-            }
-            setMessage('Login successful.');
-            // Optionally, save the user info or token to state or localStorage,
-            // then redirect to a protected page.
-            // router.push('/dashboard');
-        } catch (error) {
-            setErrorMsg(error.message);
+        setErrorMsg("");
+        const res = await signIn("credentials", {
+            redirect: false,
+            email,
+            password,
+        });
+        if (res.error) {
+            setErrorMsg(res.error);
+        } else {
+            router.push("/");
         }
     };
 
@@ -42,6 +35,7 @@ export default function LoginPage() {
                     <input
                         type="email"
                         id="email"
+                        placeholder="user@example.com"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         className="border px-2 py-1 w-full"
@@ -53,6 +47,7 @@ export default function LoginPage() {
                     <input
                         type="password"
                         id="password"
+                        placeholder="Your password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         className="border px-2 py-1 w-full"
@@ -63,10 +58,9 @@ export default function LoginPage() {
                     type="submit"
                     className="bg-blue-500 text-white px-4 py-2 rounded"
                 >
-                    Login
+                    Sign In
                 </button>
             </form>
-            {message && <p className="mt-4 text-green-600">{message}</p>}
             {errorMsg && <p className="mt-4 text-red-600">{errorMsg}</p>}
         </div>
     );
