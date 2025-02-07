@@ -78,7 +78,7 @@ export default function HomePage() {
       </div>
 
       {/* How It Works Section */}
-      <div ref={nextSectionRef} className="py-20 scroll-mt-26 flex justify-center items-center flex-col mb-26">
+      <div ref={nextSectionRef} className="py-20 scroll-mt-14 flex justify-center items-center flex-col mb-26">
         <h2 className="text-4xl font-serif font-bold text-gold2 text-center mb-4">How It Works</h2>
         <p className="text-lg text-grey1 text-center max-w-2xl mx-auto mb-10">
           Tired of scrolling through endless Reddit threads trying to figure out which skin is the best?
@@ -87,7 +87,7 @@ export default function HomePage() {
           helping create a definitive list of the best (and worst) skins for every champion.
         </p>
 
-        <div className="mb-16 px-10 lg:px-20 xl:px-30 2xl:px-40 flex justify-center items-center space-x-6 flex-col lg:flex-row ">
+        <div className="mb-10 px-10 lg:px-20 xl:px-30 2xl:px-40 flex justify-center items-center space-x-6 flex-col lg:flex-row ">
           <div className="w-full lg:w-2/3 mb-6">
             <SkinCard
               key={skin.id}

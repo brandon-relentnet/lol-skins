@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default async function ChampionPage() {
   // Fetch champion data from your API
@@ -20,11 +21,14 @@ export default async function ChampionPage() {
               {/* Make the whole item clickable */}
               <Link href={`/champions/${champion.id.toLowerCase()}`}>
                 <div className="cursor-pointer">
-                  <img
-                    src={defaultSkin.splash_url}
-                    alt={`${champion.id} default skin`}
-                    className="w-full h-auto"
-                  />
+                  <div className="relative w-full aspect-video">
+                    <Image
+                      src={defaultSkin.splash_url}
+                      alt={`${champion.id} default skin`}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
                   <div className='flex flex-col items-center justify-center p-4'>
                     <h2 className="text-xl text-grey1">{champion.id}</h2>
                     <p className="text-grey2">{champion.title}</p>

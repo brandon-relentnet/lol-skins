@@ -2,7 +2,7 @@
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp, faArrowDown, faStar, faBan } from '@fortawesome/free-solid-svg-icons';
-
+import Image from 'next/image';
 import { useState, useEffect } from 'react';
 
 export default function SkinCard({ skin, championId, initialVote, initialStar, initialX }) {
@@ -79,11 +79,14 @@ export default function SkinCard({ skin, championId, initialVote, initialStar, i
 
     return (
         <div className="bg-hextech-black/30 border-2 border-transparent outline-icon/30 outline -outline-offset-2 hover:border-icon hover:border-2 transition duration-150">
-            <img
-                src={skin.splash_url}
-                alt={`${championId} ${skin.name}`}
-                className="w-full h-auto"
-            />
+            <div className="relative w-full aspect-video">
+                <Image
+                    src={skin.splash_url}
+                    alt={`${championId} ${skin.name}`}
+                    fill
+                    className="object-cover"
+                />
+            </div>
             <p className="text-xl text-grey1 text-center pt-4">{skin.name}</p>
             <div className="flex justify-evenly items-center p-4">
                 <div className="flex justify-center items-center space-x-2">
