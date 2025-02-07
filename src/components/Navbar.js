@@ -3,17 +3,17 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouse, faUser, faAward } from '@fortawesome/free-solid-svg-icons';
+import { faHouse, faUsers, faCrown, faDice, faCheckToSlot } from '@fortawesome/free-solid-svg-icons';
 
 export default function NavBar() {
     const pathname = usePathname();
 
     return (
         <nav className='px-10 flex h-26 justify-between items-center border-b border-b-icon/30 border-t-2 border-t-gold5 bg-transparent backdrop-blur-2xl fixed top-0 left-0 w-full z-50'>
-            <Link href="/" className='group flex items-center justify-center border border-icon/30 rounded-l-full'>
+            <Link href="/games" className='group flex items-center justify-center border border-icon/30 rounded-l-full invisible md:visible'>
                 <div className='h-[56px] w-[56px] bg-gold4 rounded-full flex justify-center items-center'>
-                    <div className='h-[50px] w-[50px] border-2 border-black bg-radial from-blue4 from-60% to-blue5 group-hover:from-blue2 rounded-full flex justify-center items-center transition duration-150'>
-                            <FontAwesomeIcon icon={faHouse} className='h-7 text-gold4' />
+                    <div className='h-[50px] w-[50px] border-2 border-hextech-black bg-radial from-blue5 from-10% to-blue4 group-hover:to-blue2 rounded-full flex justify-center items-center transition duration-150'>
+                        <FontAwesomeIcon icon={faDice} className='h-7 text-gold4' />
                     </div>
                 </div>
                 <div className="relative">
@@ -30,7 +30,7 @@ export default function NavBar() {
                             className="fill-grey3 pointer-events-none" />
 
                         <text x="95" y="32" fontSize="20" fontWeight="bold" className="fill-gold1 pointer-events-none"
-                            textAnchor="middle" fontFamily="serif">HOME</text>
+                            textAnchor="middle" fontFamily="serif">PLAY</text>
                     </svg>
                 </div>
             </Link>
@@ -39,15 +39,23 @@ export default function NavBar() {
                     <FontAwesomeIcon icon={faHouse} className={`${pathname === '/' ? 'text-gold1' : 'text-icon'} hover:text-gold1 h-7 mt-0.5`} />
                 </Link>
                 <div className='h-[70%] w-[2px] mt-0.5 bg-gradient-to-b from-transparent via-icon to-transparent' />
+                <Link href="/champions" className={`${pathname === '/champions' ? 'bg-linear-to-b from-40% from-transparent via-60% via-gold2/10 to-99% to-gold2/20' : ''} h-full w-16 flex justify-center items-center transition duration-350 hover:bg-linear-to-b hover:from-40% hover:from-transparent hover:via-60% hover:via-gold2/10 hover:to-99% hover:to-gold2/40`}>
+                    <FontAwesomeIcon icon={faUsers} className={`${pathname === '/champions' ? 'text-gold1' : 'text-icon'} hover:text-gold1 h-7 mt-0.5`} />
+                </Link>
+                <div className='h-[70%] w-[2px] mt-0.5 bg-gradient-to-b from-transparent via-icon to-transparent' />
                 <Link href="/user/votes" className={`${pathname === '/user/votes' ? 'bg-linear-to-b from-40% from-transparent via-60% via-gold2/10 to-99% to-gold2/20' : ''} h-full w-16 flex justify-center items-center transition duration-350 hover:bg-linear-to-b hover:from-40% hover:from-transparent hover:via-60% hover:via-gold2/10 hover:to-99% hover:to-gold2/40`}>
-                    <FontAwesomeIcon icon={faUser} className='h-7 text-icon mt-0.5' />
+                    <FontAwesomeIcon icon={faCheckToSlot} className={`${pathname === '/user/votes' ? 'text-gold1' : 'text-icon'} hover:text-gold1 h-7 mt-0.5`} />
                 </Link>
                 <div className='h-[70%] w-[2px] bg-gradient-to-b from-transparent via-icon to-transparent mt-0.5' />
                 <Link href="/awards" className={`${pathname === '/awards' ? 'bg-linear-to-b from-40% from-transparent via-60% via-gold2/10 to-99% to-gold2/20' : ''} h-full w-16 flex justify-center items-center transition duration-350 hover:bg-linear-to-b hover:from-40% hover:from-transparent hover:via-60% hover:via-gold2/10 hover:to-99% hover:to-gold2/40`}>
-                    <FontAwesomeIcon icon={faAward} className='h-7 text-icon mt-0.5' />
+                    <FontAwesomeIcon icon={faCrown} className={`${pathname === '/awards' ? 'text-gold1' : 'text-icon'} hover:text-gold1 h-7 mt-0.5`} />
+                </Link>
+                <div className='h-[70%] w-[2px] bg-gradient-to-b from-transparent via-icon to-transparent mt-0.5 visible md:invisible' />
+                <Link href="/games" className={`${pathname === '/games' ? 'bg-linear-to-b from-40% from-transparent via-60% via-gold2/10 to-99% to-gold2/20' : ''} h-full w-16 flex justify-center items-center transition duration-350 hover:bg-linear-to-b hover:from-40% hover:from-transparent hover:via-60% hover:via-gold2/10 hover:to-99% hover:to-gold2/40 visible md:invisible`}>
+                    <FontAwesomeIcon icon={faDice} className={`${pathname === '/games' ? 'text-gold1' : 'text-icon'} hover:text-gold1 h-7 mt-0.5`} />
                 </Link>
             </div>
-            <div>
+            <div className='invisible md:visible'>
                 Socials/Donate
             </div>
         </nav>

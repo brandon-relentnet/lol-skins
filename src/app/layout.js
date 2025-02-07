@@ -20,18 +20,11 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className="h-screen">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-linear-185 from-gradientTop from-30% via-[#0A1428] via-40% to-gradientBottom to-95% h-screen bg-fixed text-slate-50 overflow-hidden`}
-      >
-        <NavBar />
-        <div className="relative mt-26 h-full">
-          <div className="pointer-events-none absolute top-0 left-0 w-full h-15 bg-gradient-to-b from-[#030912] to-transparent z-10" />
-          <main className="h-full overflow-y-auto">
-            {children}
-          </main>
-        </div>
-        <UserStats />
+    <html lang="en" className="bg-linear-220 from-gradientTop via-[#0A1428] to-gradientBottom bg-fixed">
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}>
+          <NavBar />
+          {children}
+          <UserStats />
       </body>
     </html>
   );

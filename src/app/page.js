@@ -1,40 +1,71 @@
-import Link from 'next/link';
+"use client";
 
-export default async function HomePage() {
-  // Fetch champion data from your API
-  const res = await fetch('http://localhost:3000/api/champions', { cache: 'no-store' });
-  const champions = await res.json();
+import { useRef } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+
+export default function HomePage() {
+  const nextSectionRef = useRef(null);
+
+  const scrollToNextSection = () => {
+    if (nextSectionRef.current) {
+      nextSectionRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   return (
-    <div className="container mx-auto p-4 mt-15">
-      <h1 className="text-5xl font-bold font-serif mb-2 text-gold2">Champions</h1>
-      <h2 className="text-xl mb-6 text-grey1">Click on a champion card to view and vote on their skins.</h2>
-      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
-        {champions.map((champion) => {
-          // Find the default skin: typically the one with skin.num === 0.
-          const defaultSkin =
-            champion.skins.find((skin) => skin.num === 0) || champion.skins[0];
+    <div className="container mx-auto p-4 mt-26">
+      {/* Hero Section */}
+      <div className="h-screen w-full flex flex-col items-center justify-center text-center">
+        <h1 className="text-5xl font-bold font-serif mb-2 text-gold2">
+          Welcome to SkinBattle.LoL!
+        </h1>
+        <h2 className="text-2xl mb-6 text-grey1">
+          The Ultimate Champion Skin Ranking Site
+        </h2>
 
-          return (
-            <li key={champion.id} className='bg-hextech-black/30 border-2 border-transparent outline-icon/30 outline -outline-offset-2 hover:border-icon hover:border-2 transition duration-150'>
-              {/* Make the whole item clickable */}
-              <Link href={`/champions/${champion.id.toLowerCase()}`}>
-                <div className="cursor-pointer">
-                  <img
-                    src={defaultSkin.splash_url}
-                    alt={`${champion.id} default skin`}
-                    className="w-full h-auto"
-                  />
-                  <div className='flex flex-col items-center justify-center p-4'>
-                    <h2 className="text-xl text-grey1">{champion.id}</h2>
-                    <p className="text-grey2">{champion.title}</p>
-                  </div>
-                </div>
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
+        {/* Down Arrow */}
+        <button
+          onClick={scrollToNextSection}
+          className="mt-10 animate-bounce"
+          aria-label="Scroll down"
+        >
+          <FontAwesomeIcon icon={faChevronDown} className="h-10 w-10 text-grey1 hover:text-gold2 transition duration-300" />
+        </button>
+      </div>
+
+      {/* Next Section */}
+      <div ref={nextSectionRef} className="py-20 scroll-mt-26">
+        <h2 className="text-3xl font-bold text-gold2 text-center mb-4">How It Works</h2>
+        <p className="text-lg text-grey1 text-center max-w-2xl mx-auto">
+          Tired of scrolling through endless Reddit threads trying to figure out which skin is the best?
+          SkinBattle.lol is here to settle the debate once and for all!
+          This is a community-driven ranking system where players like you vote on skins,
+          helping create a definitive list of the best (and worst) skins for every champion.
+        </p>
+      </div>
+
+      {/* Next Section */}
+      <div className="py-20">
+        <h2 className="text-3xl font-bold text-gold2 text-center mb-4">How It Works</h2>
+        <p className="text-lg text-grey1 text-center max-w-2xl mx-auto">
+          Tired of scrolling through endless Reddit threads trying to figure out which skin is the best?
+          SkinBattle.lol is here to settle the debate once and for all!
+          This is a community-driven ranking system where players like you vote on skins,
+          helping create a definitive list of the best (and worst) skins for every champion.
+        </p>
+      </div>
+
+      {/* Next Section */}
+      <div className="py-20">
+        <h2 className="text-3xl font-bold text-gold2 text-center mb-4">How It Works</h2>
+        <p className="text-lg text-grey1 text-center max-w-2xl mx-auto">
+          Tired of scrolling through endless Reddit threads trying to figure out which skin is the best?
+          SkinBattle.lol is here to settle the debate once and for all!
+          This is a community-driven ranking system where players like you vote on skins,
+          helping create a definitive list of the best (and worst) skins for every champion.
+        </p>
+      </div>
     </div>
   );
 }
