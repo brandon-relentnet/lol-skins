@@ -125,7 +125,7 @@ export default function HomePage() {
       </div>
 
       {/* What's Coming Next Section */}
-      <div ref={comingNextRef} className="py-40 scroll-mt-26 flex justify-center items-center flex-col w-full mb-26">
+      <div ref={comingNextRef} className="py-40 scroll-mt-16 lg:scroll-mt-46 flex justify-center items-center flex-col w-full mb-26">
         <h2 className="text-4xl font-serif font-bold text-gold2 text-center mb-6">What's Coming Next?</h2>
         <p className="text-lg text-grey1 text-center max-w-2xl mx-auto mb-12">
           SkinBattle.lol is just getting started! Here's a sneak peek at upcoming features that will make ranking and comparing skins even more exciting.
@@ -152,7 +152,7 @@ export default function HomePage() {
       </div>
 
       {/* Call to Action (CTA) Section */}
-      <div ref={voteRef} className="py-40 scroll-mt-26 flex flex-col items-center justify-center w-full text-center mb-16">
+      <div ref={voteRef} className="py-40 scroll-mt-26 flex flex-col items-center justify-center w-full text-center mb-26">
         <h2 className="text-4xl font-serif font-bold text-gold2 mb-6">
           Ready to Start Voting?
         </h2>
