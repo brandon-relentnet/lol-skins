@@ -79,6 +79,7 @@ export default function LoginPage() {
                 </button>
             </form>
             <Link href="/auth/register" className="mt-4 text-blue-500">Register</Link>
+            <Link href="/auth/forgot" className="mt-4 text-blue-500">Forgot Password</Link>
         </div>
     );
 }

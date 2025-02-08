@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { randomUUID } from "crypto";
 import { resend } from "@/lib/resend"; // use our Resend instance
-import { VerifyEmailTemplate } from "@/components/VerifyEmailTemplate";
+import { VerifyEmailTemplate } from "@/components/emails/VerifyEmailTemplate";
 
 export async function POST(request) {
     try {
