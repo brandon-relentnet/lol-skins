@@ -1,5 +1,5 @@
 // app/api/champions/[id]/route.js
-import pool from '@/db.js';
+import pool from '@/lib/db.js';
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';

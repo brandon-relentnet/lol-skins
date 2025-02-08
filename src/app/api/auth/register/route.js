@@ -1,8 +1,10 @@
 // app/api/auth/register/route.js
-import pool from "@/db.js";
+import pool from "@/lib/db.js";
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { randomUUID } from "crypto";
+import { resend } from "@/lib/resend"; // use our Resend instance
+import { EmailTemplate } from "@/components/EmailTemplate";
 
 export async function POST(request) {
     try {
@@ -32,7 +34,7 @@ export async function POST(request) {
         // Generate a verification token.
         const verification_token = randomUUID();
 
-        // Insert the new user, setting is_verified to false.
+        // Insert the new user, with is_verified set to false.
         const result = await pool.query(
             `INSERT INTO users (email, username, password_hash, verification_token)
        VALUES ($1, $2, $3, $4)
@@ -41,11 +43,16 @@ export async function POST(request) {
         );
         const user = result.rows[0];
 
-        // In production, you would send an email with a verification link.
-        // For now, we simply log the verification URL.
-        console.log(
-            `Verify your email by clicking on: ${process.env.NEXTAUTH_URL || "http://localhost:3000"}/api/auth/verify?token=${verification_token}`
-        );
+        // Build the verification link.
+        const verificationLink = `${process.env.NEXTAUTH_URL || "http://localhost:3000"}/api/auth/verify?token=${verification_token}`;
+
+        // Send the verification email using Resend.
+        await resend.emails.send({
+            from: process.env.RESEND_FROM, // e.g. 'Verify <verify@skinbattle.lol>'
+            to: [email], // Resend expects an array for the "to" field
+            subject: "Verify Your Email Address",
+            react: EmailTemplate({ username, verificationLink }),
+        });
 
         return NextResponse.json(
             { message: "User created successfully. Please check your email to verify your account.", user },

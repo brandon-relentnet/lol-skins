@@ -1,5 +1,5 @@
 // app/api/auth/verify/route.js
-import pool from "@/db.js";
+import pool from "@/lib/db.js";
 import { NextResponse } from "next/server";
 
 export async function GET(request) {
@@ -11,13 +11,11 @@ export async function GET(request) {
     }
 
     try {
-        // Find the user with this verification token.
         const userRes = await pool.query("SELECT id FROM users WHERE verification_token = $1", [token]);
         if (userRes.rowCount === 0) {
             return NextResponse.json({ error: "Invalid or expired verification token" }, { status: 400 });
         }
 
-        // Update the user: mark as verified and clear the verification token.
         await pool.query(
             "UPDATE users SET is_verified = true, verification_token = NULL WHERE verification_token = $1",
             [token]

@@ -1,5 +1,5 @@
 // app/api/auth/login/route.js
-import pool from '@/db.js';
+import pool from '@/lib/db.js';
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 

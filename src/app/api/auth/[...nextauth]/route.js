@@ -1,7 +1,7 @@
 // app/api/auth/[...nextauth]/route.js
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import pool from "@/db.js";
+import pool from "@/lib/db.js";
 import bcrypt from "bcryptjs";
 
 export const authOptions = {
