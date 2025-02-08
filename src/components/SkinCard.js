@@ -43,6 +43,7 @@ export default function SkinCard({ skin, championId, isAuthenticated, initialVot
             if (data.totals) {
                 setTotals(data.totals);
             }
+            window.dispatchEvent(new CustomEvent("updateUserStats"));
         } catch (err) {
             setErrorMsg(err.message);
         } finally {

@@ -15,7 +15,7 @@ export default function UserStats() {
 
         // Listen for custom event from SkinCard
         const handleUpdate = () => {
-            fetchStats(); // re-fetch stats when star/x changes
+            fetchStats(); // re-fetch stats when star/x changes or any vote happens
         };
         window.addEventListener("updateUserStats", handleUpdate);
 
@@ -27,7 +27,7 @@ export default function UserStats() {
     async function fetchStats() {
         try {
             setError(null);
-            const res = await fetch("/api/user/stats", { credentials: "include" });
+            const res = await fetch("/api/user/stats", { credentials: "include", cache: "no-store" });
             // If the user is not logged in (401), set default stats.
             if (res.status === 401) {
                 setStats({ usedStars: 0, usedX: 0 });
