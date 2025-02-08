@@ -5,7 +5,6 @@ import Link from "next/link";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faArrowUp, faArrowDown, faStar, faBan, faGamepad, faTrophy, faComments } from '@fortawesome/free-solid-svg-icons';
 import SkinCard from "@/components/SkinCard";
-import AuthButton from "@/components/AuthButton";
 
 const icons = [
   {
@@ -59,7 +58,6 @@ export default function HomePage() {
 
   return (
     <div className="container mx-auto p-4 py-26">
-      <AuthButton />
       {/* Hero Section */}
       <div className="h-screen w-full flex flex-col items-center justify-center text-center">
         <h1 className="text-5xl font-bold font-serif mb-2 text-gold2">

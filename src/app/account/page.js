@@ -11,12 +11,12 @@ export default function AccountPage() {
     if (!session) return <p>You are not logged in.</p>;
 
     return (
-        <div className="container mx-auto p-4">
-            <h1 className="text-3xl font-bold">Account</h1>
-            <p>Email: {session.user.email}</p>
+        <div className="container mx-auto p-4 pt-26 inset-0 flex flex-col items-center justify-center h-screen">
+            <h1 className="text-4xl font-serif font-semibold mb-4 text-gold2">Account</h1>
+            <p className="text-lg text-grey1 mb-10">Email: {session.user.email}</p>
             {/* Other account details can be added here */}
 
-            <div className="mt-4 space-x-4">
+            <div className="mt-4 space-y-4 contents">
                 <LogoutButton />
                 <DeleteAccountButton />
             </div>

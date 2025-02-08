@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faUsers, faCrown, faDice, faCheckToSlot } from '@fortawesome/free-solid-svg-icons';
-import AccountLevelButton from './AccountLevelButton';
+import AccountButton from './AccountButton';
 
 export default function NavBar() {
     const pathname = usePathname();
@@ -57,7 +57,7 @@ export default function NavBar() {
                 </Link>
             </div>
             <div className='hidden lg:flex'>
-                <AccountLevelButton />
+                <AccountButton />
             </div>
         </nav>
     );
