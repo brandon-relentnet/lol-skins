@@ -74,7 +74,7 @@ export default function LoginPage() {
                 <div className="mb-14 text-center">
                     <button
                         type="submit"
-                        className="bg-hextech-black/30 w-1/2 border-2 border-transparent outline-icon/30 outline -outline-offset-2 hover:border-icon hover:border-2 transition duration-150 font-serif text-grey1 hover:text-gold1 text-lg font-bold px-8 py-4 shadow-lg"
+                        className="bg-hextech-black/30 border-2 border-transparent outline-icon/30 outline -outline-offset-2 hover:border-icon hover:border-2 transition duration-150 font-serif text-grey1 hover:text-gold1 text-lg font-bold px-8 py-4 shadow-lg"
                     >
                         Sign In
                     </button>
