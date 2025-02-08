@@ -1,9 +1,11 @@
+// app/awards/page.js
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import { useSession } from "next-auth/react"; // import useSession
 import SkinCard from "@/components/SkinCard";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import Dropdown from "@/components/Dropdown";
 
 const sortOptions = [
@@ -18,6 +20,9 @@ const sortOptions = [
 export default function AwardsPage() {
     const nextSectionRef = useRef(null);
 
+    const { data: session, status } = useSession();
+    const isAuthenticated = status === "authenticated";
+
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -31,7 +36,7 @@ export default function AwardsPage() {
 
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 24; // Adjust number of skins per page as needed
+    const itemsPerPage = 24; // Adjust as needed
 
     useEffect(() => {
         async function fetchAwards() {
@@ -58,14 +63,12 @@ export default function AwardsPage() {
         fetchAwards();
     }, []);
 
-    // Reset current page whenever sorting changes
     useEffect(() => {
         setCurrentPage(1);
     }, [sortBy]);
 
-    // A function to return a sorted copy of allSkins based on sortBy
     function getSortedSkins() {
-        const sorted = [...allSkins]; // create a copy
+        const sorted = [...allSkins];
         switch (sortBy) {
             case "total_votes_desc":
                 sorted.sort((a, b) => (b.total_votes || 0) - (a.total_votes || 0));
@@ -94,7 +97,9 @@ export default function AwardsPage() {
     if (loading) {
         return (
             <div className="fixed inset-0 flex items-center justify-center bg-linear-220 from-gradientTop via-[#0A1428] to-gradientBottom bg-fixed">
-                <p className="text-3xl font-serif font-bold text-gold2">Invading enemy jungle...</p>
+                <p className="text-3xl font-serif font-bold text-gold2">
+                    Invading enemy jungle...
+                </p>
             </div>
         );
     }
@@ -102,10 +107,7 @@ export default function AwardsPage() {
         return <p className="text-red-500">Error: {error}</p>;
     }
 
-    // Get the sorted skins array
     const sortedSkins = getSortedSkins();
-
-    // Pagination calculations
     const totalPages = Math.ceil(sortedSkins.length / itemsPerPage);
     const indexOfLastSkin = currentPage * itemsPerPage;
     const indexOfFirstSkin = indexOfLastSkin - itemsPerPage;
@@ -118,27 +120,29 @@ export default function AwardsPage() {
                 <h1 className="text-5xl font-bold font-serif mb-2 text-gold2">
                     A<span className="italic">wards</span>
                 </h1>
-                <h2 className="text-2xl mb-16 text-grey1">
-                    Wards? Vision? Map control? Oh wait—wrong guide. <br />
-                    These a(wards) aren’t for vision score—they’re for the best (and worst) skins in League. <br />
-                    The summoners have spoken. Check out the most legendary skins and the biggest disasters as voted by the community.
+                <h2 className="text-2xl mb-16 text-grey1 italic">
+                    These a(wards) aren’t for vision—they’re for the best (and worst) skins in League.
+                    The summoners have spoken.
                 </h2>
-
-                {/* Down Arrow */}
                 <button
                     onClick={() => nextSectionRef.current.scrollIntoView({ behavior: "smooth" })}
                     className="animate-bounce cursor-pointer"
                     aria-label="Scroll down"
                 >
-                    <FontAwesomeIcon icon={faChevronDown} className="h-10 w-10 p-4 text-grey1 hover:text-gold2 transition duration-300" />
+                    <FontAwesomeIcon
+                        icon={faChevronDown}
+                        className="h-10 w-10 p-4 text-grey1 hover:text-gold2 transition duration-300"
+                    />
                 </button>
             </div>
 
-            {/* --- Top 10 Starred --- */}
+            {/* Top 10 Starred Section */}
             <section ref={nextSectionRef} className="scroll-mt-36 mb-36">
-                <h2 className="text-4xl font-serif font-semibold mb-4 text-gold2">Top 10 Most Starred Skins</h2>
+                <h2 className="text-4xl font-serif font-semibold mb-4 text-gold2">
+                    Top 10 Most Starred Skins
+                </h2>
                 <p className="text-lg text-grey1 mb-10">
-                    These skins aren’t just good—they’re <span className="italic">legendary</span>. The most beloved, the most iconic, and the ones summoners can’t get enough of.
+                    These skins are legendary. The most beloved, the most iconic.
                 </p>
                 {topStarred.length === 0 ? (
                     <p>No data yet.</p>
@@ -149,6 +153,7 @@ export default function AwardsPage() {
                                 key={skin.id}
                                 skin={skin}
                                 championId={skin.champion_id}
+                                isAuthenticated={isAuthenticated} // Pass it here!
                                 initialVote={skin.user_vote ?? 0}
                                 initialStar={skin.user_star ?? false}
                                 initialX={skin.user_x ?? false}
@@ -158,9 +163,11 @@ export default function AwardsPage() {
                 )}
             </section>
 
-            {/* --- Top 10 X'ed --- */}
+            {/* Top 10 X'ed Section */}
             <section className="mb-36">
-                <h2 className="text-4xl font-serif font-semibold mb-4 text-gold2">Top 10 Most Banned Skins</h2>
+                <h2 className="text-4xl font-serif font-semibold mb-4 text-gold2">
+                    Top 10 Most Banned Skins
+                </h2>
                 <p className="text-lg text-grey1 mb-10">
                     Not every skin is a masterpiece. These are the ones players love to hate.
                 </p>
@@ -173,6 +180,7 @@ export default function AwardsPage() {
                                 key={skin.id}
                                 skin={skin}
                                 championId={skin.champion_id}
+                                isAuthenticated={isAuthenticated}
                                 initialVote={skin.user_vote ?? 0}
                                 initialStar={skin.user_star ?? false}
                                 initialX={skin.user_x ?? false}
@@ -182,13 +190,13 @@ export default function AwardsPage() {
                 )}
             </section>
 
-            {/* --- All skins with sorting and pagination --- */}
+            {/* All Skins Section */}
             <section>
                 <div className="mb-10 flex justify-between items-center">
                     <div>
                         <h2 className="text-4xl font-serif font-semibold mb-4 text-gold2">All Skins</h2>
                         <p className="text-lg text-grey1">
-                            Every champion. Every style. Every era. Browse the full collection and sort to find your next favorite—or your next ban.
+                            Browse the full collection.
                         </p>
                     </div>
                     <div>
@@ -211,18 +219,18 @@ export default function AwardsPage() {
                                     key={skin.id}
                                     skin={skin}
                                     championId={skin.champion_id}
+                                    isAuthenticated={isAuthenticated}
                                     initialVote={skin.user_vote ?? 0}
                                     initialStar={skin.user_star ?? false}
                                     initialX={skin.user_x ?? false}
                                 />
                             ))}
                         </div>
-                        {/* Pagination Controls */}
                         <div className="mt-8 flex justify-center items-center space-x-4">
                             <button
                                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                                 disabled={currentPage === 1}
-                                    className="cursor-pointer bg-hextech-black/30 border-2 border-transparent outline-icon/30 outline -outline-offset-2 hover:border-icon hover:border-2 transition duration-150 font-serif text-grey1 hover:text-gold1 text-lg font-bold px-8 py-4 shadow-lg disabled:opacity-50"
+                                className="cursor-pointer bg-hextech-black/30 border-2 border-transparent outline-icon/30 outline -outline-offset-2 hover:border-icon hover:border-2 transition duration-150 font-serif text-grey1 hover:text-gold1 text-lg font-bold px-8 py-4 shadow-lg disabled:opacity-50"
                             >
                                 Previous
                             </button>
