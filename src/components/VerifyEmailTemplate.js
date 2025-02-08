@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function EmailTemplate({ username, verificationLink }) {
+export function VerifyEmailTemplate({ username, verificationLink }) {
     return (
         <div style={{ fontFamily: 'Arial, sans-serif', backgroundColor: '#010A13', padding: '40px' }}>
             <div style={{ maxWidth: '600px', margin: '0 auto', backgroundColor: '#0A1428', padding: '20px', boxShadow: '0 2px 10px rgba(0,0,0,0.1)', textAlign: 'center' }}>

@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { randomUUID } from "crypto";
 import { resend } from "@/lib/resend"; // use our Resend instance
-import { EmailTemplate } from "@/components/EmailTemplate";
+import { VerifyEmailTemplate } from "@/components/VerifyEmailTemplate";
 
 export async function POST(request) {
     try {
@@ -51,7 +51,7 @@ export async function POST(request) {
             from: process.env.RESEND_FROM, // e.g. 'Verify <verify@skinbattle.lol>'
             to: [email], // Resend expects an array for the "to" field
             subject: "Verify Your Email Address",
-            react: EmailTemplate({ username, verificationLink }),
+            react: VerifyEmailTemplate({ username, verificationLink }),
         });
 
         return NextResponse.json(

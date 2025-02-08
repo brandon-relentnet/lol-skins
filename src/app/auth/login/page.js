@@ -2,14 +2,24 @@
 "use client";
 
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export default function LoginPage() {
+    const searchParams = useSearchParams();
+    const verified = searchParams.get("verified");
+    const errorQuery = searchParams.get("error");
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [errorMsg, setErrorMsg] = useState("");
+    const [message, setMessage] = useState(
+        verified === "1" ? "Your account has been verified. You can now log in." : ""
+    );
+    const [errorMsg, setErrorMsg] = useState(
+        errorQuery ? `Error: ${errorQuery}` : ""
+    );
     const router = useRouter();
 
     const handleSubmit = async (e) => {
@@ -28,11 +38,15 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="container mx-auto pt-26">
+        <div className="container mx-auto p-4 pt-36">
             <h1 className="text-3xl font-bold mb-4">Login</h1>
+            {message && <p className="mb-4 text-green-600">{message}</p>}
+            {errorMsg && <p className="mb-4 text-red-600">{errorMsg}</p>}
             <form onSubmit={handleSubmit} className="max-w-md">
                 <div className="mb-4">
-                    <label htmlFor="email" className="block font-medium">Email:</label>
+                    <label htmlFor="email" className="block font-medium">
+                        Email:
+                    </label>
                     <input
                         type="email"
                         id="email"
@@ -44,7 +58,9 @@ export default function LoginPage() {
                     />
                 </div>
                 <div className="mb-4">
-                    <label htmlFor="password" className="block font-medium">Password:</label>
+                    <label htmlFor="password" className="block font-medium">
+                        Password:
+                    </label>
                     <input
                         type="password"
                         id="password"
@@ -61,9 +77,8 @@ export default function LoginPage() {
                 >
                     Sign In
                 </button>
-                <Link href="/auth/register" className="ml-4 text-blue-500 hover:underline">Register Here</Link>
             </form>
-            {errorMsg && <p className="mt-4 text-red-600">{errorMsg}</p>}
+            <Link href="/auth/register" className="mt-4 text-blue-500">Register</Link>
         </div>
     );
 }
